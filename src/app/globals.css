@@ -1,26 +1,310 @@
 @import "tailwindcss";
 
+/* ------------------------------------------------------------------
+   Regather "Lake" design kit
+   Calm pond at dawn: airy, pastel, rounded, gently moving.
+   ------------------------------------------------------------------ */
+
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --ink: #2f4569;
+  --ink-soft: #566a8f;
+  --on-sky: #2f4569; /* text colour for text that sits directly on the sky */
+  --cream: #fffaf7;
+  --lake: #bfe1f3;
+  --mint: #d7efdc;
+  --blush: #f9d3cf;
+  --lilac: #dccff6;
+  --coral: #ec8a85;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-ink: var(--ink);
+  --color-ink-soft: var(--ink-soft);
+  --color-on-sky: var(--on-sky);
+  --color-cream: var(--cream);
+  --color-lake: var(--lake);
+  --color-mint: var(--mint);
+  --color-blush: var(--blush);
+  --color-lilac: var(--lilac);
+  --color-coral: var(--coral);
+
+  --font-sans: var(--font-nunito), ui-rounded, system-ui, sans-serif;
+
+  --radius-card: 28px;
+  --shadow-soft: 0 6px 24px -8px rgb(47 69 105 / 0.18);
+  --shadow-lift: 0 12px 32px -10px rgb(47 69 105 / 0.28);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+html {
+  background: #e9f4fb; /* fallback behind the sky layers */
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  color: var(--ink);
+  font-family: var(--font-nunito), ui-rounded, system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Keyboard focus: a two-tone ring (white inside, navy outside) that is visible on every
+   background, from the pale day sky to the deep night sky. */
+:focus-visible {
+  outline: none !important;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 5px #2f4569 !important;
+}
+
+/* ------------------------------------------------------------------
+   Living sky. The phase is written to <html data-phase="..."> by
+   SkyProvider (from the device clock, or the preview switcher).
+   ------------------------------------------------------------------ */
+
+html[data-phase="dawn"] {
+  --on-sky: #3d3f66;
+  --blob-1: #ffc9b5;
+  --blob-2: #f7b6cf;
+  --blob-3: #ffe2b8;
+}
+html[data-phase="day"] {
+  --on-sky: #2f4569;
+  --blob-1: #a9d8f2;
+  --blob-2: #bfe8c8;
+  --blob-3: #d7e8ff;
+}
+html[data-phase="golden"] {
+  --on-sky: #5a3f3a;
+  --blob-1: #ffd88a;
+  --blob-2: #ffb98a;
+  --blob-3: #ffe9a8;
+}
+html[data-phase="dusk"] {
+  --on-sky: #3a3365;
+  --blob-1: #b7a6ef;
+  --blob-2: #f2a9c4;
+  --blob-3: #ffc7a8;
+}
+html[data-phase="night"] {
+  --on-sky: #eaf0ff;
+  --blob-1: #3f4f9a;
+  --blob-2: #6a5aa8;
+  --blob-3: #2a7fa0;
+}
+
+.sky-root {
+  position: fixed;
+  inset: 0;
+  z-index: -1;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.sky-grad {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  transition: opacity 2.5s ease;
+}
+.sky-grad-dawn { background: linear-gradient(180deg, #fde8dc 0%, #fbd5d9 55%, #f1e4f6 100%); }
+.sky-grad-day { background: linear-gradient(180deg, #d6ecfa 0%, #e9f6f1 60%, #f4faf1 100%); }
+.sky-grad-golden { background: linear-gradient(180deg, #fff1d0 0%, #fde0b0 55%, #fbd9c6 100%); }
+.sky-grad-dusk { background: linear-gradient(180deg, #c9bff0 0%, #efc4dc 60%, #fbd8cf 100%); }
+.sky-grad-night { background: linear-gradient(180deg, #1c2750 0%, #2b3768 55%, #4a4f86 100%); }
+
+html[data-phase="dawn"] .sky-grad-dawn,
+html[data-phase="day"] .sky-grad-day,
+html[data-phase="golden"] .sky-grad-golden,
+html[data-phase="dusk"] .sky-grad-dusk,
+html[data-phase="night"] .sky-grad-night {
+  opacity: 1;
+}
+
+.sky-blob {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(70px);
+  opacity: 0.75;
+  transition: background-color 2.5s ease;
+  will-change: transform;
+}
+.sky-blob-1 { background-color: var(--blob-1); width: 60vmax; height: 60vmax; left: -20vmax; top: -15vmax; animation: blob-drift-a 34s ease-in-out infinite alternate; }
+.sky-blob-2 { background-color: var(--blob-2); width: 50vmax; height: 50vmax; right: -18vmax; top: 10vh; animation: blob-drift-b 42s ease-in-out infinite alternate; }
+.sky-blob-3 { background-color: var(--blob-3); width: 55vmax; height: 55vmax; left: 15vw; bottom: -30vmax; animation: blob-drift-c 38s ease-in-out infinite alternate; }
+
+@keyframes blob-drift-a { to { transform: translate(14vw, 10vh) scale(1.12); } }
+@keyframes blob-drift-b { to { transform: translate(-12vw, 14vh) scale(0.92); } }
+@keyframes blob-drift-c { to { transform: translate(-10vw, -10vh) scale(1.1); } }
+
+/* clouds (visible in daylight phases only) */
+.sky-cloud {
+  position: absolute;
+  height: 54px;
+  width: 170px;
+  border-radius: 9999px;
+  background: rgb(255 255 255 / 0.8);
+  filter: blur(1px);
+  opacity: 0;
+  transition: opacity 2.5s ease;
+  animation: cloud-drift linear infinite;
+}
+.sky-cloud::before,
+.sky-cloud::after {
+  content: "";
+  position: absolute;
+  border-radius: 9999px;
+  background: inherit;
+}
+.sky-cloud::before { width: 84px; height: 84px; left: 24px; top: -40px; }
+.sky-cloud::after { width: 64px; height: 64px; right: 28px; top: -26px; }
+.sky-cloud-1 { top: 14vh; animation-duration: 120s; animation-delay: -30s; }
+.sky-cloud-2 { top: 34vh; transform: scale(0.7); animation-duration: 160s; animation-delay: -90s; }
+.sky-cloud-3 { top: 8vh; transform: scale(0.5); animation-duration: 200s; animation-delay: -60s; }
+
+html[data-phase="dawn"] .sky-cloud { opacity: 0.5; }
+html[data-phase="day"] .sky-cloud { opacity: 0.85; }
+html[data-phase="golden"] .sky-cloud { opacity: 0.6; }
+html[data-phase="dusk"] .sky-cloud { opacity: 0.22; }
+
+@keyframes cloud-drift {
+  from { translate: -260px 0; }
+  to { translate: calc(100vw + 260px) 0; }
+}
+
+/* stars + moon */
+.sky-stars,
+.sky-moon {
+  position: absolute;
+  opacity: 0;
+  transition: opacity 3s ease;
+}
+.sky-stars { inset: 0; }
+.sky-star {
+  position: absolute;
+  border-radius: 9999px;
+  background: #fff;
+  animation: twinkle 4s ease-in-out infinite;
+}
+html[data-phase="night"] .sky-stars { opacity: 1; }
+html[data-phase="dusk"] .sky-stars { opacity: 1; }
+html[data-phase="dusk"] .sky-star:not(.sky-star-first) { opacity: 0 !important; animation: none; }
+.sky-moon {
+  top: 9vh;
+  right: 12vw;
+  width: 54px;
+  height: 54px;
+  border-radius: 9999px;
+  box-shadow: -15px 7px 0 0 #fdf6e3;
+  filter: drop-shadow(0 0 14px rgb(253 246 227 / 0.55));
+}
+html[data-phase="night"] .sky-moon { opacity: 1; }
+
+@keyframes twinkle {
+  0%, 100% { opacity: 0.25; transform: scale(0.8); }
+  50% { opacity: 1; transform: scale(1.15); }
+}
+
+/* ------------------------------------------------------------------
+   Page-level motion helpers
+   ------------------------------------------------------------------ */
+
+.fade-up {
+  animation: fade-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+@keyframes fade-up {
+  from { opacity: 0; transform: translateY(14px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.pop-in {
+  animation: pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+  animation-delay: var(--delay, 0ms);
+}
+@keyframes pop-in {
+  from { opacity: 0; transform: scale(0.85); }
+  to { opacity: 1; transform: scale(1); }
+}
+
+/* soft breathing glow for the Help button and other calm highlights */
+.breathe-glow { animation: breathe-glow 6s ease-in-out infinite; }
+@keyframes breathe-glow {
+  0%, 100% { box-shadow: 0 6px 24px -8px rgb(47 69 105 / 0.18), 0 0 0 0 rgb(220 207 246 / 0); }
+  50% { box-shadow: 0 6px 24px -8px rgb(47 69 105 / 0.18), 0 0 0 8px rgb(220 207 246 / 0.45); }
+}
+
+/* ------------------------------------------------------------------
+   Axolotl animation parts (see components/axolotl/Axolotl.tsx)
+   ------------------------------------------------------------------ */
+
+.axo-float { animation: axo-float 5s ease-in-out infinite; }
+@keyframes axo-float {
+  0%, 100% { transform: translateY(0) rotate(0deg); }
+  50% { transform: translateY(-7px) rotate(-1.2deg); }
+}
+
+.axo-rest { animation: axo-rest 6s ease-in-out infinite; transform-origin: 50% 90%; transform-box: fill-box; }
+@keyframes axo-rest {
+  0%, 100% { transform: scale(1, 1); }
+  50% { transform: scale(1.015, 1.035); }
+}
+
+.axo-tail { transform-box: fill-box; transform-origin: 100% 50%; animation: axo-tail 2.6s ease-in-out infinite; }
+@keyframes axo-tail {
+  0%, 100% { transform: rotate(-5deg); }
+  50% { transform: rotate(6deg); }
+}
+
+.axo-gill {
+  transform-box: fill-box;
+  transform-origin: 0% 50%;
+  animation: axo-gill 3.2s ease-in-out infinite;
+  animation-delay: var(--d, 0s);
+}
+@keyframes axo-gill {
+  0%, 100% { transform: rotate(-7deg); }
+  50% { transform: rotate(8deg); }
+}
+
+.axo-leg { transform-box: fill-box; transform-origin: 20% 20%; animation: axo-leg 2.4s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes axo-leg {
+  0%, 100% { transform: rotate(-10deg); }
+  50% { transform: rotate(14deg); }
+}
+
+.axo-bubble { animation: axo-bubble 4.5s ease-in infinite; animation-delay: var(--d, 0s); opacity: 0; transform-box: fill-box; }
+@keyframes axo-bubble {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
+  15% { opacity: 0.9; }
+  100% { opacity: 0; transform: translate(10px, -46px) scale(1.1); }
+}
+
+.axo-blink { transform-box: fill-box; transform-origin: 50% 50%; animation: axo-blink 6s ease-in-out infinite; }
+@keyframes axo-blink {
+  0%, 92%, 100% { transform: scaleY(1); }
+  96% { transform: scaleY(0.2); }
+}
+
+/* a swimming lane: the axolotl drifts left to right across its container */
+.axo-swim { animation: axo-swim 36s linear infinite; }
+@keyframes axo-swim {
+  from { translate: -30% 0; }
+  to { translate: 110vw 0; }
+}
+
+/* gentle sparkle used around the logo */
+.sparkle { animation: sparkle 3.6s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: center; }
+@keyframes sparkle {
+  0%, 100% { opacity: 0.35; transform: scale(0.75) rotate(0deg); }
+  50% { opacity: 1; transform: scale(1.1) rotate(20deg); }
+}
+
+/* ------------------------------------------------------------------
+   Reduced motion: everything holds still.
+   ------------------------------------------------------------------ */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition-duration: 0.01ms !important;
+  }
+  .axo-bubble { opacity: 0; }
+  .sky-cloud { translate: 20vw 0; }
 }
