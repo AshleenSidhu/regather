@@ -47,6 +47,9 @@ const nextConfig: NextConfig = {
     // Signed-in pages read the session at request time by design, so skip the automatic
     // dev-only "instant navigation" warnings that flag every such route.
     instantInsights: { validationLevel: "manual-warning" },
+    // The Tailwind turbopack loader doesn't report its inputs to Turbopack's on-disk dev cache,
+    // so CSS edits were served stale even after a restart. Rebuild CSS fresh in dev.
+    turbopackFileSystemCacheForDev: false,
   },
   turbopack: {
     rules: {
@@ -55,6 +58,13 @@ const nextConfig: NextConfig = {
         as: "*.css",
       },
     },
+  },
+  // "Circles" are called "ponds" now; keep old links working.
+  async redirects() {
+    return [
+      { source: "/circle", destination: "/pond", permanent: true },
+      { source: "/circle/:id", destination: "/pond/:id", permanent: true },
+    ];
   },
   async headers() {
     return [{ source: "/:path*", headers: securityHeaders }];

@@ -18,7 +18,7 @@ const NAV = [
   { href: "/dashboard", label: "Overview" },
   { href: "/dashboard/codes", label: "Invite codes" },
   { href: "/dashboard/flags", label: "Flags" },
-  { href: "/dashboard/circles", label: "Circles" },
+  { href: "/dashboard/circles", label: "Ponds" },
 ];
 
 async function PartnerChrome({ children }: { children: React.ReactNode }) {
@@ -31,7 +31,7 @@ async function PartnerChrome({ children }: { children: React.ReactNode }) {
           <Logo variant="mark" className="h-10 w-auto" />
           <div>
             <p className="text-lg font-bold leading-tight text-on-sky">{partner.partnerName}</p>
-            <p className="text-sm text-on-sky/70">Partner dashboard</p>
+            <p className="text-sm text-on-sky-soft">Partner dashboard</p>
           </div>
         </div>
         <form action={logoutAction}>

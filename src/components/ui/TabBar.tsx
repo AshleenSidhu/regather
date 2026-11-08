@@ -2,40 +2,34 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
+import { CalmIcon, ChatsIcon, JarIcon, MeIcon, PondIcon } from "./Icons";
 
 const TABS = [
-  { href: "/circle", label: "Circle", icon: "◐" },
-  { href: "/chats", label: "Chats", icon: "✉" },
-  { href: "/notes", label: "Notes", icon: "❀" },
-  { href: "/me", label: "Me", icon: "☺" },
+  { href: "/pond", label: "Pond", Icon: PondIcon },
+  { href: "/notes", label: "Jar", Icon: JarIcon },
+  { href: "/calm", label: "Calm", Icon: CalmIcon },
+  { href: "/chats", label: "Chats", Icon: ChatsIcon },
+  { href: "/me", label: "Me", Icon: MeIcon },
 ];
 
+/** The floating tab bar. The tab you're on sits in a white circle. No badges, no counts. */
 export function TabBar() {
   const pathname = usePathname();
   return (
-    <nav
-      aria-label="Main"
-      className="fixed inset-x-0 bottom-0 z-20 mx-auto flex w-full max-w-md justify-around gap-1 border-t border-white/70 bg-white/80 px-2 pb-[max(0.5rem,env(safe-area-inset-bottom))] pt-2 backdrop-blur-md"
-    >
-      {TABS.map((tab) => {
-        const active = pathname === tab.href || pathname.startsWith(`${tab.href}/`);
-        return (
-          <Link
-            key={tab.href}
-            href={tab.href}
-            aria-current={active ? "page" : undefined}
-            className={
-              "flex min-h-12 flex-1 flex-col items-center justify-center rounded-2xl text-xs font-semibold transition duration-200 focus-visible:outline-2 focus-visible:outline-ink " +
-              (active ? "bg-lilac/70 text-ink" : "text-ink-soft hover:bg-white/70")
-            }
-          >
-            <span aria-hidden="true" className={"text-lg leading-none transition " + (active ? "scale-110" : "")}>
-              {tab.icon}
-            </span>
-            {tab.label}
-          </Link>
-        );
-      })}
+    <nav aria-label="Main" className="fixed inset-x-0 bottom-0 z-20 mx-auto w-full max-w-md px-4 pb-[max(0.75rem,env(safe-area-inset-bottom))]">
+      <div className="tabbar">
+        {TABS.map(({ href, label, Icon }) => {
+          const active = pathname === href || pathname.startsWith(`${href}/`);
+          return (
+            <Link key={href} href={href} aria-current={active ? "page" : undefined}>
+              <span className="tab-ico">
+                <Icon className="h-[22px] w-[22px]" />
+              </span>
+              {label}
+            </Link>
+          );
+        })}
+      </div>
     </nav>
   );
 }

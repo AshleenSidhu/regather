@@ -29,8 +29,8 @@ export default async function FlagsPage() {
   return (
     <div className="flex flex-col gap-4">
       <LiveRefresh partnerId={partner.partnerId} />
-      <h1 className="text-3xl font-bold text-on-sky">Flags</h1>
-      <p className="text-on-sky/85">
+      <h1 className="font-display text-4xl font-semibold text-on-sky">Flags</h1>
+      <p className="text-on-sky-soft">
         Messages and notes that may show someone is in danger, and help requests. People who triggered a flag
         have already been shown crisis numbers. This list updates live.
       </p>

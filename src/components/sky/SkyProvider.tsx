@@ -2,51 +2,59 @@
 
 import {
   createContext,
+  useCallback,
   useContext,
   useEffect,
   useMemo,
   useState,
   useSyncExternalStore,
 } from "react";
+import { phaseForHour, phaseForSun, type CalmWeather, type Phase, type SunTimes } from "@/lib/sky";
 import { Sky } from "./Sky";
 
-export type Phase = "dawn" | "day" | "golden" | "dusk" | "night";
+export type { Phase } from "@/lib/sky";
 
-export const PHASES: { id: Phase; label: string }[] = [
-  { id: "dawn", label: "Dawn" },
-  { id: "day", label: "Day" },
-  { id: "golden", label: "Golden hour" },
-  { id: "dusk", label: "Dusk" },
-  { id: "night", label: "Night" },
-];
+export type ClientSkyReport = {
+  weather: CalmWeather;
+  tempC: number;
+  sunrise: number;
+  sunset: number;
+  city: string;
+};
 
-// Time of day comes from the device clock only. No location, no network.
-export function phaseForHour(hour: number): Phase {
-  if (hour >= 5 && hour < 7) return "dawn";
-  if (hour >= 7 && hour < 17) return "day";
-  if (hour >= 17 && hour < 19) return "golden";
-  if (hour >= 19 && hour < 21) return "dusk";
-  return "night";
-}
+const STORE_KEY = "rg-sky";
 
 /**
- * Runs in <head> before first paint (see layout.tsx), so someone opening the app at 2 a.m.
- * never sees a flash of daytime sky. Keep in sync with phaseForHour above.
+ * Runs in <head> before first paint, so someone opening the app at 2 a.m. never sees a flash
+ * of daytime sky. Uses the last known sun times for their city (moved to today), else the clock.
+ * Keep in sync with phaseForSun / phaseForHour in lib/sky.ts.
  */
-export const PHASE_BOOT_SCRIPT = `(function(){try{var h=new Date().getHours();var p=h>=5&&h<7?"dawn":h>=7&&h<17?"day":h>=17&&h<19?"golden":h>=19&&h<21?"dusk":"night";document.documentElement.dataset.phase=p}catch(e){}})()`;
+export const PHASE_BOOT_SCRIPT = `(function(){try{var d=document.documentElement,n=Date.now(),h=new Date().getHours(),p=h>=5&&h<7?"dawn":h>=7&&h<17?"day":h>=17&&h<19?"golden":h>=19&&h<21?"dusk":"night",w="clear";var s=JSON.parse(localStorage.getItem("${STORE_KEY}")||"null");if(s&&s.sunrise){var t=function(x){var a=new Date(x),b=new Date();b.setHours(a.getHours(),a.getMinutes(),0,0);return b.getTime()};var r=t(s.sunrise),u=t(s.sunset),M=60000;p=n>=r-50*M&&n<r+40*M?"dawn":n>=r+40*M&&n<u-70*M?"day":n>=u-70*M&&n<u-5*M?"golden":n>=u-5*M&&n<u+55*M?"dusk":"night";if(n-s.at<6*3600000)w=s.weather||"clear"}d.dataset.phase=p;d.dataset.weather=w}catch(e){}})()`;
+
+// Move stored sun times onto today's date (they shift by only a few minutes a day).
+function sunToday(sun: SunTimes): SunTimes {
+  const move = (ms: number) => {
+    const a = new Date(ms);
+    const b = new Date();
+    b.setHours(a.getHours(), a.getMinutes(), 0, 0);
+    return b.getTime();
+  };
+  return { sunrise: move(sun.sunrise), sunset: move(sun.sunset) };
+}
 
 function subscribe(onChange: () => void) {
   const id = setInterval(onChange, 60 * 1000);
   return () => clearInterval(id);
 }
-const getClockPhase = (): Phase => phaseForHour(new Date().getHours());
-const getServerPhase = (): Phase => "day";
+// A minute-resolution clock, so the snapshot is stable between ticks.
+const getMinute = () => Math.floor(Date.now() / 60000);
+const getServerMinute = () => 0;
 
 type SkyContextValue = {
   phase: Phase;
-  /** null means "follow the real clock" */
-  override: Phase | null;
-  setOverride: (phase: Phase | null) => void;
+  weather: CalmWeather;
+  report: ClientSkyReport | null;
+  setReport: (r: ClientSkyReport | null) => void;
 };
 
 const SkyContext = createContext<SkyContextValue | null>(null);
@@ -58,23 +66,35 @@ export function useSky() {
 }
 
 export function SkyProvider({ children }: { children: React.ReactNode }) {
-  const clockPhase = useSyncExternalStore(subscribe, getClockPhase, getServerPhase);
-  const [override, setOverride] = useState<Phase | null>(null);
-  const phase = override ?? clockPhase;
+  const minute = useSyncExternalStore(subscribe, getMinute, getServerMinute);
+  const [report, setReportState] = useState<ClientSkyReport | null>(null);
 
-  // Write the sky to <html>. Reads the clock directly (not the hydration snapshot) so it
-  // never overwrites the correct phase that the boot script already set.
+  const phase: Phase = useMemo(() => {
+    if (minute === 0) return "night"; // server render; the boot script already set the real one
+    const now = minute * 60000;
+    return report ? phaseForSun(now, sunToday(report)) : phaseForHour(new Date(now).getHours());
+  }, [minute, report]);
+  const weather: CalmWeather = report?.weather ?? "clear";
+
+  const setReport = useCallback((r: ClientSkyReport | null) => {
+    setReportState(r);
+    if (!r) return;
+    try {
+      localStorage.setItem(STORE_KEY, JSON.stringify({ sunrise: r.sunrise, sunset: r.sunset, weather: r.weather, at: Date.now() }));
+    } catch {
+      /* private mode: the sky just follows the clock next time */
+    }
+  }, []);
+
   useEffect(() => {
-    const apply = () => {
-      document.documentElement.dataset.phase = override ?? phaseForHour(new Date().getHours());
-    };
-    apply();
-    if (override) return;
-    const id = setInterval(apply, 60 * 1000);
-    return () => clearInterval(id);
-  }, [override]);
+    if (minute === 0) return;
+    const el = document.documentElement;
+    el.dataset.phase = phase;
+    // Before a report arrives, keep whatever the boot script found.
+    if (report) el.dataset.weather = weather;
+  }, [phase, weather, report, minute]);
 
-  const value = useMemo(() => ({ phase, override, setOverride }), [phase, override]);
+  const value = useMemo(() => ({ phase, weather, report, setReport }), [phase, weather, report, setReport]);
 
   return (
     <SkyContext.Provider value={value}>
@@ -82,4 +102,13 @@ export function SkyProvider({ children }: { children: React.ReactNode }) {
       {children}
     </SkyContext.Provider>
   );
+}
+
+/** Drop this anywhere with the server's report to switch the sky to the real sun and weather. */
+export function SkyReportSync({ report }: { report: ClientSkyReport | null }) {
+  const { setReport } = useSky();
+  useEffect(() => {
+    setReport(report);
+  }, [report, setReport]);
+  return null;
 }

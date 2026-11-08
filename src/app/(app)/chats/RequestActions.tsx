@@ -23,10 +23,10 @@ export function RequestActions({ id, kind }: { id: string; kind: "connection" | 
   return (
     <div className="flex flex-col items-end gap-1">
       <div className="flex gap-2">
-        <PillButton variant="ink" className="min-h-9! px-4! py-1! text-sm" disabled={pending} onClick={() => respond(true)}>
+        <PillButton variant="ink" className="min-h-11! px-4! py-1! text-sm" disabled={pending} onClick={() => respond(true)}>
           Accept
         </PillButton>
-        <PillButton className="min-h-9! px-4! py-1! text-sm" disabled={pending} onClick={() => respond(false)}>
+        <PillButton className="min-h-11! px-4! py-1! text-sm" disabled={pending} onClick={() => respond(false)}>
           Not now
         </PillButton>
       </div>

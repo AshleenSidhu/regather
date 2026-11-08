@@ -32,11 +32,12 @@ export function Axolotl({
     <svg
       viewBox="0 0 320 230"
       className={className}
-      role="img"
-      aria-label={title}
+      role={title ? "img" : undefined}
+      aria-label={title || undefined}
+      aria-hidden={title ? undefined : true}
       xmlns="http://www.w3.org/2000/svg"
     >
-      <title>{title}</title>
+      {title && <title>{title}</title>}
       <defs>
         {/* userSpaceOnUse keeps one smooth colour across body + head */}
         <linearGradient

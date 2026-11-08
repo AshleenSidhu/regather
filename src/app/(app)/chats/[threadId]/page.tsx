@@ -1,5 +1,6 @@
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import { BackIcon } from "@/components/ui/Icons";
 import { ChatRoom, type ChatMessage, type ChatPerson } from "@/components/chat/ChatRoom";
 import { requireMember } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
@@ -49,12 +50,12 @@ export default async function ThreadPage({ params }: { params: Promise<{ threadI
   return (
     <div className="flex min-h-0 flex-1 flex-col gap-3">
       <div>
-        <Link href="/chats" className="text-sm font-semibold text-on-sky/80 underline underline-offset-4">
-          ← All chats
+        <Link href="/chats" className="press glass inline-flex min-h-11 items-center gap-1 rounded-full pl-2 pr-4 text-sm font-bold">
+          <BackIcon className="h-5 w-5" /> All chats
         </Link>
-        <h1 className="text-3xl font-bold text-on-sky">{other?.nickname ?? "Chat"}</h1>
+        <h1 className="font-display mt-2 text-4xl font-semibold text-on-sky">{other?.nickname ?? "Chat"}</h1>
       </div>
-      <p className="rounded-2xl bg-white/80 px-4 py-2.5 text-sm text-ink-soft" role="note">
+      <p className="glass rounded-2xl px-4 py-2.5 text-sm font-semibold" role="note">
         {moderated
           ? "This is a mentor chat. A moderator at your program can review it to keep everyone safe."
           : "Private chats are checked for safety. Phone numbers and addresses are hidden for now."}

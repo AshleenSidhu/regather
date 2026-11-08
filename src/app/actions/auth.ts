@@ -81,7 +81,7 @@ export async function loginAction(_prev: FormState, formData: FormData): Promise
   const { error } = await supabase.auth.signInWithPassword(parsed.data);
   if (error) return { error: "That email and password didn't match." };
 
-  redirect("/circle");
+  redirect("/pond");
 }
 
 export async function logoutAction() {

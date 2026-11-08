@@ -32,7 +32,7 @@ export default async function DashboardHome() {
 
   const stats = [
     { label: "Open flags", value: openFlags ?? 0, tone: "blush" as const, href: "/dashboard/flags" },
-    { label: "Circles", value: activity?.length ?? 0, tone: "lake" as const, href: "/dashboard/circles" },
+    { label: "Ponds", value: activity?.length ?? 0, tone: "lake" as const, href: "/dashboard/circles" },
     { label: "Members", value: members, tone: "mint" as const, href: "/dashboard/circles" },
     { label: "Active codes", value: activeCodes, tone: "lilac" as const, href: "/dashboard/codes" },
   ];
@@ -40,7 +40,7 @@ export default async function DashboardHome() {
   return (
     <div className="flex flex-col gap-6">
       <LiveRefresh partnerId={partner.partnerId} />
-      <h1 className="text-3xl font-bold text-on-sky">Overview</h1>
+      <h1 className="font-display text-4xl font-semibold text-on-sky">Overview</h1>
       <div className="grid grid-cols-2 gap-4 sm:grid-cols-4">
         {stats.map((s, i) => (
           <Link key={s.label} href={s.href} className="fade-up rounded-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink" style={{ "--delay": `${i * 90}ms` } as React.CSSProperties}>
@@ -75,8 +75,8 @@ export default async function DashboardHome() {
         </Link>
       </Card>
 
-      <p className="text-sm text-on-sky/80">
-        {messages} messages across your circles in the last 24 hours. You see activity counts only, never circle conversations.
+      <p className="text-sm text-on-sky-soft">
+        {messages} messages across your ponds in the last 24 hours. You see activity counts only, never pond conversations.
       </p>
     </div>
   );

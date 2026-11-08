@@ -1,12 +1,12 @@
-import { Axolotl } from "@/components/axolotl/Axolotl";
-import { Card } from "@/components/ui/Card";
-import { KeepButton } from "@/components/notes/KeepButton";
+import { Lotl } from "@/components/lotl/Lotl";
+import { ArrivedNote } from "@/components/notes/ArrivedNote";
+import { ComfortJar } from "@/components/notes/ComfortJar";
 import { NoteCard, type NoteView } from "@/components/notes/NoteCard";
 import { NoteComposer, type Recipient } from "@/components/notes/NoteComposer";
 import { requireMember } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 
-export const metadata = { title: "Notes · Regather" };
+export const metadata = { title: "Comfort jar · Regather" };
 
 export default async function NotesPage() {
   const viewer = await requireMember();
@@ -46,47 +46,60 @@ export default async function NotesPage() {
   };
   await nameOf([...(received ?? []).map((n) => n.sender_id), ...(sent ?? []).map((n) => n.recipient_id)]);
 
-  const jar: (NoteView & { savedFlag: boolean })[] = (received ?? []).map((n) => ({
+  const all: (NoteView & { savedFlag: boolean })[] = (received ?? []).map((n) => ({
     id: n.id, body: n.body, sticker: n.sticker, color: n.color, createdAt: n.created_at,
     who: `From ${people.get(n.sender_id)?.nickname ?? "someone"}`, savedFlag: n.saved_to_jar,
   }));
+  const kept = all.filter((n) => n.savedFlag);
+  const arrived = all.filter((n) => !n.savedFlag);
 
   return (
-    <div className="flex flex-col gap-6 pt-2">
-      <div>
-        <h1 className="text-3xl font-bold text-on-sky">Notes</h1>
-        <p className="text-on-sky/85">Small things for when words are hard.</p>
+    <div className="flex flex-col gap-6 pt-1">
+      <div className="enter">
+        <h1 className="font-display text-[40px] leading-tight">Your comfort <span className="tone">jar</span></h1>
+        <p className="text-on-sky-soft">
+          {kept.length
+            ? `${kept.length} kind ${kept.length === 1 ? "note" : "notes"} kept. Tap the jar on a hard day.`
+            : "Notes you keep will gather and glow in here."}
+        </p>
       </div>
 
-      <NoteComposer recipients={recipients} />
+      <div className="enter" style={{ "--delay": "120ms" } as React.CSSProperties}>
+        <ComfortJar notes={kept} />
+      </div>
 
-      <section aria-label="Your comfort jar" className="flex flex-col gap-3">
-        <h2 className="text-xl font-bold text-on-sky">Your comfort jar</h2>
-        {jar.length === 0 ? (
-          <Card tone="cream" className="text-center">
-            <Axolotl resting className="mx-auto h-28 w-auto" />
-            <p className="mt-2 font-semibold">Nothing here yet.</p>
-            <p className="text-ink-soft">When someone sends you a note, it&apos;ll swim in here.</p>
-          </Card>
-        ) : (
+      {arrived.length > 0 && (
+        <section aria-labelledby="arrived" className="flex flex-col gap-3">
+          <h2 id="arrived" className="font-display text-[28px]">Arrived <span className="tone-soft">for you</span></h2>
           <ul className="flex flex-col gap-3">
-            {jar.map((n, i) => (
+            {arrived.map((n, i) => (
               <li key={n.id}>
-                <NoteCard note={n} delayMs={i * 80} footer={<KeepButton id={n.id} saved={n.savedFlag} />} />
+                <ArrivedNote note={n} delayMs={i * 90} />
               </li>
             ))}
           </ul>
-        )}
-      </section>
+        </section>
+      )}
+
+      {kept.length === 0 && arrived.length === 0 && (
+        <div className="paper flex items-center gap-3 p-4">
+          <Lotl mood="sleep" className="h-16 w-auto shrink-0" title="" />
+          <p className="text-ink-soft">When someone sends you a note, Lotl will swim it right here.</p>
+        </div>
+      )}
+
+      <NoteComposer recipients={recipients} />
 
       {sent && sent.length > 0 && (
-        <section aria-label="Notes you sent" className="flex flex-col gap-3">
-          <h2 className="text-xl font-bold text-on-sky">Sent by you</h2>
-          <ul className="flex flex-col gap-3">
-            {sent.map((n, i) => (
+        <details className="group">
+          <summary className="chip min-h-12! w-full cursor-pointer list-none justify-between px-5!">
+            Notes you sent ({sent.length})
+            <span aria-hidden="true" className="transition-transform group-open:rotate-180">⌄</span>
+          </summary>
+          <ul className="mt-3 flex flex-col gap-3">
+            {sent.map((n) => (
               <li key={n.id}>
                 <NoteCard
-                  delayMs={i * 60}
                   note={{
                     id: n.id, body: n.body, sticker: n.sticker, color: n.color, createdAt: n.created_at,
                     who: `To ${people.get(n.recipient_id)?.nickname ?? "someone"}`,
@@ -95,7 +108,7 @@ export default async function NotesPage() {
               </li>
             ))}
           </ul>
-        </section>
+        </details>
       )}
     </div>
   );

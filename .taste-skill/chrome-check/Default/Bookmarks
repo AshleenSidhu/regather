@@ -1,0 +1,400 @@
+{
+   "checksum": "1adba08a72cce2da15267a77f4e87341",
+   "roots": {
+      "bookmark_bar": {
+         "children": [ {
+            "date_added": "0",
+            "date_last_used": "0",
+            "guid": "7043ba94-0a75-4201-81c0-17c46d791209",
+            "id": "22",
+            "name": "Javanotes ",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://math.hws.edu/javanotes/index.html",
+            "visit_count": 0
+         }, {
+            "date_added": "13430448822040424",
+            "date_last_used": "0",
+            "guid": "3a9899e3-105a-4815-9f09-ab82c5d6445a",
+            "id": "23",
+            "name": "",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.planetminecraft.com/",
+            "visit_count": 0
+         }, {
+            "date_added": "0",
+            "date_last_used": "13424323138363722",
+            "guid": "19c8f74c-00d8-4e9d-8517-84d89a5c0630",
+            "id": "24",
+            "name": "Standard First Aid with CPR/AED (Level C) | First Aid Training Calgary",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://firstaidtrainingcalgary.com/first-aid-cpr-training-calgary/",
+            "visit_count": 5
+         }, {
+            "date_added": "13433030701294731",
+            "date_last_used": "13437904018411845",
+            "guid": "d0b9f1c6-ee7a-4622-89a4-a4a08839db5b",
+            "id": "25",
+            "name": "D2l",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://d2l.ucalgary.ca/d2l/home",
+            "visit_count": 23
+         }, {
+            "date_added": "13348989931572836",
+            "date_last_used": "13433892269875893",
+            "guid": "611d19d0-4a8c-414a-a769-e39735a6001e",
+            "id": "26",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "SAIT D2L",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://login.microsoftonline.com/f52f2183-9f67-4ad2-b656-6f754fe196cb/saml2?SAMLRequest=jdE9a8MwEAbgvdD%2fYLRbkr9lYQdCuwTSJWk7dCmyfE4MtuTq5NKfX6UhtGO3%2b%2bCFh7tmu%2fqzOcDHCuij3WNLUM2Tu%2fbvWtSFBl2lXaFzSPpOQ5dlXcZzKNOy6En0Cg5Ha1qSUk6iHeIKO4NeGR9GPM1jnsS8fOa5zAuZVlQIkWQFfyPRFhGcD9kHa3CdwR3BfY4aXg77lpy9X1AyNoFyhqIaPdWK9enEpoWpQGaTPY2GXbD7S0XDjkRf82SwJasz0iocURo1A0qv5XH7tJfBKBdnvdV2Ipv7uyhqfsTuP0F185LNTddVlR6g1LEYkizOayVilXIRF9WgRF2WfSkG6sGEayDt3Hg6e1yUBqrt%2fEtv2BURQA37%2b47NNw%3d%3d&RelayState=%2fd2l%2fhome%2f181055",
+            "visit_count": 190
+         }, {
+            "date_added": "13433037968855268",
+            "date_last_used": "13436598229097074",
+            "guid": "495c0464-61ec-4e9f-abe7-9d609ce02b74",
+            "id": "27",
+            "name": "Coursicle - U of C | University of Calgary",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.coursicle.com/ucalgaryca/?search=math249",
+            "visit_count": 3
+         }, {
+            "date_added": "13349309910330697",
+            "date_last_used": "13410077058451702",
+            "guid": "68b3517d-1533-48f0-b763-3869c56844ab",
+            "id": "28",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Introduction to Networks -Introduction",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://contenthub.netacad.com/itn-dl/1.0.4",
+            "visit_count": 6
+         }, {
+            "date_added": "13353787291556877",
+            "date_last_used": "13383963600896347",
+            "guid": "bca57c66-300d-46e8-9339-410b086cd1ed",
+            "id": "29",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Home | Alberta Student Aid",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://studentaid.alberta.ca/",
+            "visit_count": 1
+         }, {
+            "date_added": "13371343292792504",
+            "date_last_used": "13404839442415799",
+            "guid": "17f504c1-047f-4937-b620-023a6011ed55",
+            "id": "30",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Oracle APEX - Sign In",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://iacademy2.oracle.com/ords/f?p=4550:1:3731490072040:::::",
+            "visit_count": 3
+         }, {
+            "date_added": "13381726955313423",
+            "date_last_used": "13426840508347486",
+            "guid": "cb17b721-4479-4667-be40-625b4d788064",
+            "id": "31",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "NeetCode",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://neetcode.io/practice",
+            "visit_count": 7
+         }, {
+            "date_added": "13381726983557859",
+            "date_last_used": "13426840835413083",
+            "guid": "2b316743-61a0-4206-9095-ca1ec78129bf",
+            "id": "32",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "LeetCode",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://leetcode.com/",
+            "visit_count": 6
+         }, {
+            "date_added": "13382751414071447",
+            "date_last_used": "0",
+            "guid": "68dee7d5-ce9a-415f-939e-be8c46dc1da3",
+            "id": "33",
+            "meta_info": {
+               "power_bookmark_meta": ""
+            },
+            "name": "Assignment Tracker",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://www.notion.so/Assignment-Tracker-18b9486c4ac580718defde28f9f8c2b1",
+            "visit_count": 1
+         }, {
+            "date_added": "13393002966994797",
+            "date_last_used": "13399149014786718",
+            "guid": "251078b9-37ec-4d5c-bffb-58c138874832",
+            "id": "34",
+            "name": "Jira",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://benferaer-test.atlassian.net/jira/software/projects/CMW/boards/1",
+            "visit_count": 8
+         }, {
+            "date_added": "13407958540616065",
+            "date_last_used": "13408063420513992",
+            "guid": "b436ccc9-0e87-4e93-a4fa-38049d4c5694",
+            "id": "35",
+            "name": "Lovable",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://lovable.dev/projects/4275a36e-6d96-45fc-ae35-f0ac32e7ea7c",
+            "visit_count": 4
+         }, {
+            "date_added": "13413740345228068",
+            "date_last_used": "0",
+            "guid": "31219aa0-aa5a-4663-b20a-4e33e369ceb2",
+            "id": "36",
+            "name": "Sign In Sheet - Google Docs",
+            "show_icon": false,
+            "source": "sync",
+            "type": "url",
+            "url": "https://docs.google.com/document/d/1NJjD2FD01Fx5W1nM5FV7Fz1rHcscaHuFEn-YvyVPx-8/edit?tab=t.0#heading=h.xqy1jq3mu8xj",
+            "visit_count": 1
+         }, {
+            "date_added": "13438611856175863",
+            "date_last_used": "0",
+            "guid": "95073dc1-f98e-420a-a06b-ad03966d83fd",
+            "id": "9",
+            "name": "Lenovo Support",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://support.lenovo.com/",
+            "visit_count": 0
+         }, {
+            "date_added": "13438611856175614",
+            "date_last_used": "0",
+            "guid": "60ffaaee-5a41-4f35-84fc-6dbbf9ae3351",
+            "id": "8",
+            "name": "Lenovo",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://www.lenovo.com/",
+            "visit_count": 0
+         }, {
+            "date_added": "13438611856174853",
+            "date_last_used": "0",
+            "guid": "fcae625d-2102-4441-b0a9-1ee0f1989bae",
+            "id": "7",
+            "name": "McAfee",
+            "show_icon": false,
+            "source": "oem_preload",
+            "type": "url",
+            "url": "https://www.mcafee.com/consumer/v/browserfav/lenovo.html",
+            "visit_count": 0
+         } ],
+         "date_added": "13438611855883808",
+         "date_last_used": "0",
+         "date_modified": "13438611856175863",
+         "guid": "0bc5d13f-2cba-5d74-951f-3f233fe6c908",
+         "id": "1",
+         "name": "Favourites bar",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "other": {
+         "children": [ {
+            "children": [ {
+               "date_added": "0",
+               "date_last_used": "13372118439107144",
+               "guid": "7e5242a1-a01e-4c3f-97bd-992de484ae20",
+               "id": "11",
+               "name": "Lenovo ThinkPad E16 Gen1 21JN0073US w/ Core™ i7-1355U, 16GB, 512GB NVMe SSD, 16in WUXGA IPS, Iris Xe, Wi-Fi 6, BT 5.1, Windows 11 Pro - Laptops / Notebooks - Memory Express Inc.",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.memoryexpress.com/Products/MX00126224",
+               "visit_count": 1
+            }, {
+               "date_added": "0",
+               "date_last_used": "0",
+               "guid": "20af564b-6f31-42d5-b789-24f5666bb94d",
+               "id": "12",
+               "name": "Lenovo Legion Pro 5 i7 16IRX8 w/ Core™ i7-13700HX, 16GB, 1TB SSD, 16in WQXGA IPS 165Hz, GeForce RTX 4060, Wi-Fi 6E, BT 5.1, Win 11 Home - Laptops / Notebooks - Memory Express Inc.",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.memoryexpress.com/Products/MX00125374",
+               "visit_count": 0
+            }, {
+               "date_added": "0",
+               "date_last_used": "0",
+               "guid": "8a87bb70-2e5e-43ab-a2b9-eb7da9558a78",
+               "id": "13",
+               "name": "Grade Calculator",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://forms.logiforms.com/formdata/user_forms/61072_2753753/336492/page1.html?cachebust=495",
+               "visit_count": 0
+            }, {
+               "date_added": "0",
+               "date_last_used": "0",
+               "guid": "b2cb39eb-e79f-4050-81ed-8480ca36992b",
+               "id": "14",
+               "name": "Cost Calculator",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://forms.sait.ca/formdata/user_forms/61072_2753753/366875/page1.html?cachebust=2551#",
+               "visit_count": 0
+            } ],
+            "date_added": "13348989349801353",
+            "date_last_used": "0",
+            "date_modified": "13348989349801353",
+            "guid": "fe364dd6-5c2e-4b25-9378-89d540ab7a69",
+            "id": "10",
+            "name": "Other Bookmarks",
+            "source": "unknown",
+            "type": "folder"
+         }, {
+            "children": [ {
+               "date_added": "0",
+               "date_last_used": "0",
+               "guid": "264795b0-6b00-4839-8ac7-a7b67e44b8f8",
+               "id": "16",
+               "name": "Questions about Architectural Technologist : r/SA…",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.reddit.com/r/SAIT/comments/yseokg/comment/ivzbb2h/",
+               "visit_count": 0
+            }, {
+               "date_added": "0",
+               "date_last_used": "0",
+               "guid": "773e1fcd-bf8c-48de-b4b9-37bda9875c0f",
+               "id": "17",
+               "name": "Architectural Technology : r/SAIT",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.reddit.com/r/SAIT/comments/sz8y0t/architectural_technology/",
+               "visit_count": 0
+            }, {
+               "date_added": "0",
+               "date_last_used": "0",
+               "guid": "f809886d-101a-4ba4-9bb4-d3167a32f6c8",
+               "id": "18",
+               "name": "Laptop for Architectural Technologies : r/SAIT",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.reddit.com/r/SAIT/comments/vwxk1e/laptop_for_architectural_technologies/",
+               "visit_count": 0
+            }, {
+               "date_added": "0",
+               "date_last_used": "0",
+               "guid": "2728e3a7-b1d3-4216-b38a-5845b20e1ced",
+               "id": "19",
+               "name": "SAIT Architectural Technologies Program : r/Calga…",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://www.reddit.com/r/Calgary/comments/gdimkm/sait_architectural_technologies_program/",
+               "visit_count": 0
+            }, {
+               "date_added": "0",
+               "date_last_used": "0",
+               "guid": "fcf32cc3-2bbd-491d-8385-f6c99fa7b5d0",
+               "id": "20",
+               "name": "How to register for my classes : Southern Alberta Institute of Technology",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://saitregistrar.freshdesk.com/support/solutions/articles/47001153748-how-to-register-for-my-classes",
+               "visit_count": 0
+            }, {
+               "date_added": "0",
+               "date_last_used": "0",
+               "guid": "2a20c80b-37de-46ca-bacb-32ed7b284518",
+               "id": "21",
+               "name": "Khalsa Will Mark Your Time - House of Khalsa",
+               "show_icon": false,
+               "source": "sync",
+               "type": "url",
+               "url": "https://houseofkhalsa.com/collections/watches?sort_by=price-ascending",
+               "visit_count": 0
+            } ],
+            "date_added": "13348989349803996",
+            "date_last_used": "0",
+            "date_modified": "13348989349803996",
+            "guid": "82aaf169-d7fc-4d6c-91e8-049ab8735962",
+            "id": "15",
+            "name": "Synced Bookmarks",
+            "source": "unknown",
+            "type": "folder"
+         } ],
+         "date_added": "13438611855883808",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "82b081ec-3dd3-529c-8475-ab6c344590dd",
+         "id": "2",
+         "name": "Other favourites",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "synced": {
+         "children": [  ],
+         "date_added": "13438611855883808",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "4cf2e351-0e85-532b-bb37-df045d8f8d0f",
+         "id": "3",
+         "name": "Mobile favourites",
+         "source": "unknown",
+         "type": "folder"
+      },
+      "workspaces_v2": {
+         "children": [  ],
+         "date_added": "13438611855883808",
+         "date_last_used": "0",
+         "date_modified": "0",
+         "guid": "75aa6670-344f-549d-b742-660f029506ab",
+         "id": "5",
+         "name": "Workspaces",
+         "source": "unknown",
+         "type": "folder"
+      }
+   },
+   "sync_metadata": "CjEKDgiIgQISCNtV+bqhAQAAEgAqGFhRY0Fmd0ZhczRKOWNxekNpMEIvWVE9PUgDoAYHEq8BCCQSqgEKHC9yMFNYZFZLMllobE93S1JBeEdqclBnVGdiMD0SJDMxMjE5YWEwLWFhNWEtNDY2My1iMjBhLTRlMzNlMzY5Y2ViMhgAIAAoADD16K344zM4s8SQhL8zQLPEkIS/M0ocLzNQVllGZGJoVXZ6U1lHdk9JenAzdUtaSy9jPVohIh////dpaHduOVlvaTZpelM1MUFEbi9pY1hGRDR5a0E9ZRlhYhvCPgJgBRKvAQgjEqoBChxmN1pQdW9pREw5dit6YmI3eVZjbytjWnBIWlU9EiRiNDM2Y2NjOS0wZTg3LTRlOTMtYTRmYS0zODA0OWQ0YzU2OTQYACAAKAAwsNb/tOUzOOCbk7+pM0Dgm5O/qTNKHDlBNjBMamdFQUUwRGVEakkwVkFFS1RTQWhxUT1aISIf///uRW8zQ3pJQnhIY2d6eGxudVo0U0diQnQ5OXRNPWUp+7Cdwj4CYAUSrwEIIhKqAQoccEs5eUFtN2Z3ZTNuRlhPcG4rSkpIOEtYNFY4PRIkMjUxMDc4YjktMzdlYy00ZDVjLWJmZmItNThjMTM4ODc0ODMyGAAgACgAMOeXuNaIMziXqOPj8TJAl6jj4/EyShxmeDhpNC8wbEtYKytnSEI3b3IxNGhmbTlaa1E9WiEiH///3HJWTDJMbjBzQ2FOWkZRZ3RrQ0Z2OVhMa0Zkdz1lXhnvw8I+AmAFEq8BCCESqgEKHEI5Y1hiWmtSRlRQNnVDOU9RNi83bzBqT3VWUT0SJDY4ZGVlN2Q1LWNlOWEtNDE1Zi05MzllLWJlOGM0NmRjMWRhMxgAIAAoADDPi7rLyzI42426y8syQNuNusvLMkocR0xIMENGdWdYRFNEVGFQQlZNcjY2d1YrQUpJPVohIh///7htTTBEYVRScGNPTXMwRlozQnlINUV4b2tPR0E9Zf55fk7CPgJgBRKuAQggEqkBChw5Vk1tRklQSFI4ZWgwcXhNeGcwOUEwbWhuT2M9EiQyYjMxNjc0My02MWEwLTQyMDYtOTA5NS1jYTFlYzc4MTI5YmYYACAAKAAwovT26u8zOOz0++LHMkDs9PvixzJKHHdOS1c4TFdpa0VqUmxwYkduSStVblpHSlhOUT1aICIe//9xV1lHTUhic1pCRG0weEFGdW0yTkFYYXR5SE09ZTQ4eoPCPgJgBRKuAQgfEqkBChxDKzl0bzk2WmNjK0dZZkgzYnpJOHB2dTA5UTg9EiRjYjE3YjcyMS00NDc5LTQ2NjctYmU0MC02MjViNGQ3ODgwNjQYACAAKAAwzPji6u8zOJyZ+uLHMkCcmfrixzJKHGV6ZE1zS0RXU3BneE82S2p1aTdpWEhkbERWQT1aICIe//4yckdDOE5zSVVCTFA4VWdzRExGZTRJM0RERkk9ZeqRYPvCPgJgBRKuAQgeEqkBChxXNE1weXhoUzF4QVMvOSttMnptZndRZVFJc2s9EiQxN2Y1MDRjMS0wNDdmLTQ5MzctYjYyMC0wMjNhNjAxMWVkNTUYACAAKAAwzsrs750zOPXe0YuhMkD13tGLoTJKHFFkTlA4WDgzS0RVYUFhVFRFTDhPSzgyWEI2WT1aICIe//1wWlBTSjE3NHpqek5LV3RyOHl0Y2lGbVBhNTg9ZW1qruXCPgJgBRKMAQgDEocBChxuamdEdTg4ZUNydlhwODZwRDdmSEdjcUZwODg9EiQxZTM1NTM2ZC1kNTMzLTVkOWItYTFlZi05MTEyOTQyNDdmM2UYACAAKAAwl5+w6M0xOOilsOjNMUDopbDozTFKHHl6TkIwMWNuNTRBN2NSVTB1VCsvUGdtVHRVbz1lAAAAAMI+AmAAEq0BCBQSqAEKHG0yVnZpU1h3bTVVSzRjdUJKMVlrcXJjdkFGOD0SJGZjZjMyY2MzLTJiYmQtNDkxZC04Mzg1LWY2Yzk5ZmE3YjVkMBgAIAAoADCmp7nozTE4yq656M0xQMquuejNMUocZ3RoUUk4bGdQemZRSVJ2bVh0ZVcvMmVtSzFjPVofIh33VWxhcWZPNzFLbVFWSjNUdVZubW5jWHVqQjZZPWUAAAAAwj4CYAUSrQEIHRKoAQocdnBPOCtBRUU3VFVZcUFVMFNkNForbVpQVWdJPRIkYmNhNTdjNjYtMzAwZC00NmU4LTkzMzktNDEwYjA4NmNkMWVkGAAgACgAMJrmg/epMzj3uqTY3zFA97qk2N8xShx3cTBUTVlVckswQUVKSXBBcysyYlRjYi9vRWc9Wh8iHf9iM0tmbWVsNlN4TGxySHllaWJmcHZNc3RXQWs9ZXvwv3DCPgJgBRKtAQgbEqgBChxKaEtpOXptTVJtN0k5WVBqYnhsL2J3SHZ3d3M9EiQ0OTVjMDQ2NC02MWVjLTRlOWYtYWJlNy05ZDYwOWNlMDJiNzQYACAAKAAw7vnOl5Q0OKH4+fWGNECh+Pn1hjRKHEJ2RzduUkl6L3QveHFwZm00Q2NmWW95clEyaz1aHyId+lY2MUpkK21ab3BhdDlRRk1lbms2OHdhZllIbz1lE7O/ocI+AmAFEq0BCBoSqAEKHE1IUER4dFpGeEhLblFHVW1TR2w0aUJLYVdyaz0SJDYxMWQxOWQwLTRhOGMtNDE0YS1hNzY5LWUzOTczNWE2MDAxZRgAIAAoADDswqiNijQ4muzc6M0xQJrs3OjNMUocbVMybE1HNnZ1QlZ4TkRIMjBRY0M2dmFDWS9zPVofIh33RVhUZDRkSkJWbmVwVVJyaElhNVlpZEUyRFF3PWVN2Hjmwj4CYAUSrQEIGRKoAQocTjcxTGhsckJabktGank0N2JQdHdKUXJ1Z0c0PRIkZDBiOWYxYzYtZWU3YS00NjIyLTg5YTQtYTRhMDg4MzlkYjViGAAgACgAMJj3oYaZNDiYxL7yhjRAmMS+8oY0ShwwMVl0MmU3Z0lhQ3c0UmFJRHJrZlhIL24wMlk9Wh8iHfJUTWd4TGcwQStsYk93amVBQ005VHhWYWpETFE9ZY7Kni7CPgJgBRKtAQgYEqgBChxnSzlUOGdRdHltSmNhRjVnN01UR2s2RXJzbnM9EiQxOWM4Zjc0Yy0wMGQ4LTRlOWQtODUxNy04NGQ4OWE1YzA2MzAYACAAKAAwmPKyuuYzONGquejNMUDRqrnozTFKHFZVd20vYlNkUE1ZVE5HQjVpK1o0YVZ1b1oxYz1aHyId7kpiLzFXbElDVk1rQkpzWFpqRzlveDJxTHVMdz1l9uBDWMI+AmAFEq0BCBcSqAEKHEhCV0J4VzVEc2F0MmppUDRUblVlNXhpWTJybz0SJDNhOTg5OWUzLTEwNWEtNDgxNS05ZjA5LWFiODJjNWQ2NDQ1YRgAIAAoADCf+ayj/TM4+fuso/0zQPn7rKP9M0ocWnBaVS9tcHNRY3ZZNDlRNnFMQVZodkloL1NrPVofIh2ySE5NT3pPWE1kZkpuMjJzWjhMaEhTdEo1dHlVPWUAAAAAwj4CYAUSrAEICxKnAQocOWxzMWR5SjhLQnNqZERaYzVtY2xzYkJMazNVPRIkN2U1MjQyYTEtYTAxZS00YzNmLTk3YmQtOTkyZGU0ODRhZTIwGAAgACgAMJSTof2jMjjuq7nozTFA7qu56M0xShx4d2UzNVFWSHoybEU1cE1FWmE0Y2RzZU5SZVU9Wh4iHHJOSW1MaU1qVHhocyt2TXU1WXVYbllSTWNpaz1lccZl5cI+AmAFEq0BCA4SqAEKHGt6Y2o2alR3eVRpV2kyQkRIWTN3MXU1MDRjRT0SJGIyY2IzOWViLWU3OWYtNDA1MC04MWVkLTg0ODBjYTM2OTkyYhgAIAAoADCgp7nozTE42ay56M0xQNmsuejNMUocZWpsVVB4T0FmZktBR1pkWTNQRXl1TUZ3bHVJPVofIh3uS09RUWpwWGpqOU1YR3ppN2VtSXBHcFV3K21zPWUAAAAAwj4CYAUSrQEIDxKoAQocWXpBZFlTZUFrMXgzWHdKVkVzenNLaXRkN2pRPRIkODJhYWYxNjktZDdmYy00ZDZjLTkxZTgtMDQ5YWI4NzM1OTYyGAAgACgAMKGnuejNMTiNrbnozTFAja256M0xShxPakFTS3FZTThIUUZTN0VmQTFJak8rSkFPTFk9Wh8iHaoxQXdXQnJrZ3ZHZmtJSFYxOU1ZY2F4TlQ4d2c9ZQAAAADCPgJgABKtAQgSEqgBChxyMzlaWWt3ZVJmV20wS294ZXZ1SjlWWkZDalE9EiRmODA5ODg2ZC0xMDFhLTRiYTQtOWJiNC1kMzE2N2EzMmY2YzgYACAAKAAwpKe56M0xOP2tuejNMUD9rbnozTFKHHd2S0FBRmhlNTJXSmRYQ2pJMzdsRktZZnZuUT1aHyId3GNGS2dYQ25lSGswWUdPQWdUeWwrS1MvelFoND1lAAAAAMI+AmAFEowBCAEShwEKHHl4Si82ZnZrZWNyN2twNUVRekI0dFdMcGRiRT0SJDYxMWZjZTIyLWY0NTctNWNjZS1iZWQ1LWE4ZTI4NjEyZDQxYhgAIAAoADCSn7DozTE4jKWw6M0xQIylsOjNMUocYVJDV0xnaEY5YjVJbnFLSUR2dUovanZRa0ZjPWUAAAAAwj4CYAASrQEIDRKoAQocMXNVZWxBZWUwdkVzTWZyWE5yVnZCV3RXVDk4PRIkOGE4N2JiNzAtMmU1ZS00M2FiLWEyYjktZWI3ZGE5NTU4YTc4GAAgACgAMJ+nuejNMTi3rLnozTFAt6y56M0xShxQOFRVTjZOcWVzbkVVME9CWWxYWEhUUjIwRUU9Wh8iHdxlazhuNjMzdnZ3NEVEciswSmFZUmpLRWpnNDQ9ZQAAAADCPgJgBRKtAQgcEqgBChxqK2JnMnBiNDlvZ1dtMjBTVUFURkIxaHFMOXc9EiQ2OGIzNTE3ZC0xNTMzLTQ4ZjAtYjc2My0zODY5YzU2ODQ0YWIYACAAKAAwmZarsbEzON3kpoHPMUDd5KaBzzFKHGYwTGZyWWR2UkxHbTkydG5hN2tZWVoyZVR0QT1aHyId/ktZQmFOcUpGTGVRZWFGdlVzc1owY0FKeVRNQT1lpSqhiMI+AmAFEqwBCBYSpwEKHDdHSld6NGRuVHFRb2IwYWZjZW9hYnJMV1ZJST0SJDcwNDNiYTk0LTBhNzUtNDIwMS04MWMwLTE3YzQ2ZDc5MTIwORgAIAAoADDU2sXgxzI49Kq56M0xQPSquejNMUocK2hPYmJVN3FOSno2ZkVNbHM0VEFJb085WHVvPVoeIhx3YmpZdTRMZHhTOStjVWN4SjBsUXBvd21vRmc9ZZkXG1DCPgJgBRKsAQgQEqcBChw0dklvZk1rSFJjWUNaNGlCeDhJV2NFUy9mRjQ9EiQyNjQ3OTViMC02YjAwLTQ4MzktOGFjNy1hN2I2N2U0NGI4ZjgYACAAKAAwoqe56M0xOLKtuejNMUCyrbnozTFKHHFGdnhsS3hHQ0o4MENDeEwyWUo3dkxibHhMND1aHiIccXlLdVZFUFluZXJQTGF2RnRFS0s2dHpLRm93PWUAAAAAwj4CYAUSrQEIERKoAQocY05XMmhOYXJzd3NIVlgwYzNHNjJWdEJjTkpzPRIkNzczZTFmY2QtYmY4Yy00OGRlLWI0YjktMzdiZGE5ODc1YzBmGAAgACgAMKOnuejNMTjWrbnozTFA1q256M0xShw1N2ZlbGwyMEJCb005cUgyWnJsazBLZEpGVlU9Wh8iHbg0QUJEMlFLSEJhTHFIUHhITUNWOEdoQ1k1aWM9ZQAAAADCPgJgBRKtAQgTEqgBChxoSFZjVzhDczhnSncyN0ZPeWUxbWVDVk1BOEE9EiQyNzI4ZTNhNy1iMWQzLTQyMTYtYjM4YS01ODQ1YjIwZTFjZWQYACAAKAAwpae56M0xOKeuuejNMUCnrrnozTFKHFE5WTRVMGZKNmpOUFpWeHhGRmtLVk50OWF6QT1aHyId7jY4TEJRYnFLM21wL1d2MXRzVHVkVDB3Yng5OD1lAAAAAMI+AmAFEowBCAUShwEKHHdSQnJaTCs2UEE5YXZLZ2pOUDdKWERMY2Z2cz0SJGE3YmI2NTRkLWZhYTgtNTE3MC04MTZmLTZkZWU1ODJmNGUwYxgAIAAoADDK6qTepDM48Oyk3qQzQPDspN6kM0ocbm14NjVzUUR2eEk4VGdFZXYrQStudHRvU240PWUAAAAAwj4CYAASrQEIDBKoAQocTXpRVXhLOG4zeTN3T1lzZEhTSTdXU2FWR3JjPRIkMjBhZjU2NGItNmYzMS00MmQ1LWI3ODktMjRmNTY2NmJiOTRkGAAgACgAMJ6nuejNMTiTrLnozTFAk6y56M0xShx1dFl2dk9zQUN1a2I0Ti9nQzRrQnBITTFGWGs9Wh8iHblLOWFPOFk2eVArcHJxUjZpZGV1VG5mNTNIdnM9ZQAAAADCPgJgBRKtAQgVEqgBChw5RzJKN0lJZ0t0anZwcGNXZjczalN1WGlha009EiQyYTIwYzgwYi0zN2RlLTQ2Y2EtYmFjYi0zMmVkN2IyODQ1MTgYACAAKAAwp6e56M0xOPCuuejNMUDwrrnozTFKHHRzdjZJNWQxSy83TDhBdXBiMm9GSXZMMUw2ST1aHyId+y9YNDNabTA2Y04yQXZoUnFEdktXR0Fsb2lTUT1lAAAAAMI+AmAFEowBCAIShwEKHFljU1RvbnZFU1B3cUNzNEwyY3JWaHY2OEw5OD0SJGVlODQ3OTdjLTVkNWEtNWM2YS1hOTYyLTczZTExYmIwMTM1OBgAIAAoADCTn7DozTE4q6Ww6M0xQKulsOjNMUocb1BWa2h3QlJiVjY1S0NXUjIrSU9OSFdvT3U4PWUAAAAAwj4CYAASrAEIChKnAQocOHdDQTdjbitHdnBVbTZvMjJBVzc1cGNPbmRBPRIkZmUzNjRkZDYtNWMyZS00YjI1LTkzNzgtODlkNTQwYWI3YTY5GAAgACgAMJynuejNMTjIq7nozTFAyKu56M0xShxSL3IxSnZjWVhaakJzd1hpSFhNTFo0eS9JMEk9Wh4iHFV3QS9nSGVWZmJsOC9OV0hHNkljR2lFaHhncz1lAAAAAMI+AmAAMAA4AA==",
+   "version": 1
+}

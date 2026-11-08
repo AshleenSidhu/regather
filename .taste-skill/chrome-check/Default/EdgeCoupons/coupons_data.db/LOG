@@ -1,0 +1,6 @@
+2026/11/08-05:49:17.726 2ce0 Reusing MANIFEST C:\regather\.taste-skill\chrome-check\Default\EdgeCoupons/coupons_data.db/MANIFEST-000001
+2026/11/08-05:49:17.740 2ce0 Recovering log #10
+2026/11/08-05:49:17.742 2ce0 Reusing old log C:\regather\.taste-skill\chrome-check\Default\EdgeCoupons/coupons_data.db/000010.log 
+2026/11/08-05:49:17.817 203c Level-0 table #14: started
+2026/11/08-05:49:17.822 203c Level-0 table #14: 683444 bytes OK
+2026/11/08-05:49:17.824 203c Delete type=0 #10

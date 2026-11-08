@@ -2,7 +2,7 @@ import { Card } from "@/components/ui/Card";
 import { requirePartner } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 
-export const metadata = { title: "Circles · Regather" };
+export const metadata = { title: "Ponds · Regather" };
 
 export default async function CirclesPage() {
   await requirePartner();
@@ -11,14 +11,14 @@ export default async function CirclesPage() {
 
   return (
     <div className="flex flex-col gap-4">
-      <h1 className="text-3xl font-bold text-on-sky">Circles</h1>
-      <p className="text-on-sky/85">Counts only. Circle conversations are private to their members.</p>
+      <h1 className="font-display text-4xl font-semibold text-on-sky">Ponds</h1>
+      <p className="text-on-sky-soft">Counts only. Pond conversations are private to their members.</p>
       <Card tone="cream" className="overflow-x-auto p-0!">
         <table className="w-full min-w-[34rem] text-left">
-          <caption className="sr-only">Circle activity</caption>
+          <caption className="sr-only">Pond activity</caption>
           <thead>
             <tr className="border-b border-ink/10 text-sm text-ink-soft">
-              <th scope="col" className="px-5 py-3">Circle</th>
+              <th scope="col" className="px-5 py-3">Pond</th>
               <th scope="col" className="px-3 py-3">Type</th>
               <th scope="col" className="px-3 py-3">Members</th>
               <th scope="col" className="px-3 py-3">Messages (24h)</th>
@@ -43,7 +43,7 @@ export default async function CirclesPage() {
             ))}
             {!circles?.length && (
               <tr>
-                <td colSpan={6} className="px-5 py-6 text-center text-ink-soft">No circles yet. They appear as families join.</td>
+                <td colSpan={6} className="px-5 py-6 text-center text-ink-soft">No ponds yet. They appear as families join.</td>
               </tr>
             )}
           </tbody>

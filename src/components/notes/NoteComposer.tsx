@@ -1,15 +1,36 @@
 "use client";
 
 import { useRouter } from "next/navigation";
-import { useState, useTransition } from "react";
+import { useEffect, useState, useTransition } from "react";
 import { sendNoteAction } from "@/app/actions/social";
 import { useCrisis } from "@/components/crisis/CrisisProvider";
+import { Lotl } from "@/components/lotl/Lotl";
+import { Sticker } from "@/components/ui/Icons";
 import { Modal } from "@/components/ui/Modal";
 import { FormError } from "@/components/ui/Field";
 import { PillButton } from "@/components/ui/PillButton";
 import { NOTE_COLORS, STICKERS, type NoteSticker } from "@/lib/options";
+import { PAPER } from "./NoteCard";
 
 export type Recipient = { id: string; nickname: string; sticker: string };
+
+const STARTERS = ["Thinking of you tonight.", "You're doing better than you think.", "I'm proud of you for showing up.", "Same here. You're not alone."];
+
+/** Lotl swims across the screen carrying the note. */
+function CarryAcross({ name, onDone }: { name: string; onDone: () => void }) {
+  useEffect(() => {
+    const id = setTimeout(onDone, 3300);
+    return () => clearTimeout(id);
+  }, [onDone]);
+  return (
+    <div role="status" className="pointer-events-none fixed inset-0 z-50 grid place-items-center">
+      <div className="carry-across">
+        <Lotl mood="carry" className="h-32 w-auto drop-shadow-xl" title="" bubbles />
+      </div>
+      <p className="pop-in glass absolute bottom-[22vh] rounded-full px-5 py-2.5 font-bold">Lotl is carrying it to {name}…</p>
+    </div>
+  );
+}
 
 export function NoteComposer({ recipients }: { recipients: Recipient[] }) {
   const router = useRouter();
@@ -20,7 +41,7 @@ export function NoteComposer({ recipients }: { recipients: Recipient[] }) {
   const [color, setColor] = useState<string>("blush");
   const [body, setBody] = useState("");
   const [error, setError] = useState<string>();
-  const [sent, setSent] = useState<string>();
+  const [carrying, setCarrying] = useState<string | null>(null);
   const [pending, start] = useTransition();
 
   function send() {
@@ -32,23 +53,23 @@ export function NoteComposer({ recipients }: { recipients: Recipient[] }) {
         return;
       }
       const name = recipients.find((r) => r.id === to)?.nickname ?? "them";
-      setSent(`Sent. It's swimming over to ${name}.`);
       setBody("");
       setOpen(false);
-      router.refresh();
       if (res.crisis) openCrisis();
+      else setCarrying(name);
+      router.refresh();
     });
   }
 
   return (
     <div className="flex flex-col gap-2">
-      <PillButton variant="ink" disabled={recipients.length === 0} onClick={() => { setSent(undefined); setOpen(true); }}>
-        ❀ Send a candy-gram
+      <PillButton variant="white" className="w-full" disabled={recipients.length === 0} onClick={() => setOpen(true)}>
+        Send a little note
       </PillButton>
       {recipients.length === 0 && (
-        <p className="text-sm text-on-sky/80">You can send notes once there are other people in your circle.</p>
+        <p className="text-center text-sm text-on-sky-soft">You can send notes once others join your pond.</p>
       )}
-      {sent && <p role="status" className="pop-in rounded-2xl bg-white/85 px-4 py-2 text-sm font-semibold shadow-soft">{sent}</p>}
+      {carrying && <CarryAcross name={carrying} onDone={() => setCarrying(null)} />}
 
       <Modal open={open} onClose={() => setOpen(false)} title="A little note">
         <form
@@ -67,17 +88,45 @@ export function NoteComposer({ recipients }: { recipients: Recipient[] }) {
                   type="button"
                   aria-pressed={to === r.id}
                   onClick={() => setTo(r.id)}
-                  className={"min-h-10 rounded-full border px-4 py-1.5 font-semibold transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink " + (to === r.id ? "border-ink bg-ink text-white" : "border-white bg-white hover:bg-white/80")}
+                  className={"lift flex min-h-11 items-center gap-1.5 rounded-full border py-1 pl-1.5 pr-4 font-bold " + (to === r.id ? "border-ink bg-ink text-white" : "border-[#f0e4da] bg-white")}
                 >
-                  {STICKERS.find((s) => s.value === r.sticker)?.emoji} {r.nickname}
+                  <Sticker kind={r.sticker} className="h-8 w-8" /> {r.nickname}
                 </button>
               ))}
             </div>
           </fieldset>
 
-          <fieldset className="flex flex-col gap-2">
-            <legend className="mb-1 font-bold">Sticker</legend>
-            <div className="flex gap-2">
+          {/* live preview: the note itself is the editor */}
+          <div className="relative rounded-[22px] border border-white p-4 pt-5 shadow-soft transition-colors duration-500" style={{ background: `linear-gradient(180deg,#fffdf9,${PAPER[color] ?? PAPER.blush})` }}>
+            <span aria-hidden="true" key={sticker} className="pop-in absolute -right-2 -top-3 rotate-12">
+              <Sticker kind={sticker} className="h-12 w-12 drop-shadow" />
+            </span>
+            <label htmlFor="note-body" className="sr-only">Your note</label>
+            <textarea
+              id="note-body"
+              value={body}
+              onChange={(e) => setBody(e.target.value)}
+              rows={4}
+              maxLength={280}
+              placeholder="Write a few kind words…"
+              className="font-hand w-full resize-none bg-transparent pr-6 text-[1.7rem] leading-[1.15] placeholder:text-ink-soft/50"
+            />
+            <p className="text-right text-xs font-bold text-ink-soft">{body.length}/280</p>
+          </div>
+
+          {!body && (
+            <div className="-mt-1 flex flex-wrap gap-2" aria-label="Ideas to start with">
+              {STARTERS.map((s) => (
+                <button key={s} type="button" onClick={() => setBody(s)} className="lift min-h-11 rounded-full bg-paper-2 px-3.5 text-sm font-semibold">
+                  {s}
+                </button>
+              ))}
+            </div>
+          )}
+
+          <div className="flex flex-wrap items-center justify-between gap-3">
+            <fieldset className="flex items-center gap-1.5">
+              <legend className="sr-only">Sticker</legend>
               {STICKERS.map((s) => (
                 <button
                   key={s.value}
@@ -85,51 +134,32 @@ export function NoteComposer({ recipients }: { recipients: Recipient[] }) {
                   aria-pressed={sticker === s.value}
                   aria-label={s.label}
                   onClick={() => setSticker(s.value)}
-                  className={"grid h-12 w-12 place-items-center rounded-2xl border text-2xl transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink " + (sticker === s.value ? "scale-110 border-ink bg-white shadow-soft" : "border-white bg-white/70")}
+                  className={"press grid h-12 w-12 place-items-center rounded-2xl border-2 " + (sticker === s.value ? "border-ink bg-white" : "border-transparent bg-paper-2")}
                 >
-                  {s.emoji}
+                  <Sticker kind={s.value} className="h-9 w-9" />
                 </button>
               ))}
-            </div>
-          </fieldset>
-
-          <fieldset className="flex flex-col gap-2">
-            <legend className="mb-1 font-bold">Card colour</legend>
-            <div className="flex gap-2">
+            </fieldset>
+            <fieldset className="flex items-center gap-1.5">
+              <legend className="sr-only">Paper colour</legend>
               {NOTE_COLORS.map((c) => (
                 <button
                   key={c.value}
                   type="button"
                   aria-pressed={color === c.value}
-                  aria-label={c.label}
+                  aria-label={c.value === "lilac" ? "Lantern" : c.label}
                   onClick={() => setColor(c.value)}
-                  className={`h-10 w-10 rounded-full border-2 bg-linear-to-b transition focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink ${c.classes} ` + (color === c.value ? "scale-110 border-ink" : "border-white")}
+                  className={"press h-11 w-11 rounded-full border-[3px] " + (color === c.value ? "border-ink" : "border-white")}
+                  style={{ background: PAPER[c.value] }}
                 />
               ))}
-            </div>
-          </fieldset>
-
-          <div className="flex flex-col gap-1.5">
-            <label htmlFor="note-body" className="font-bold">Your note</label>
-            <textarea
-              id="note-body"
-              value={body}
-              onChange={(e) => setBody(e.target.value)}
-              rows={4}
-              maxLength={280}
-              placeholder="Thinking of you. You're doing better than you think."
-              className="resize-none rounded-2xl border border-white bg-white px-4 py-3 text-base focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink"
-            />
-            <p className="text-right text-xs text-ink-soft">{body.length}/280</p>
+            </fieldset>
           </div>
 
           <FormError message={error} />
-          <div className="flex gap-3">
-            <PillButton onClick={() => setOpen(false)} disabled={pending}>Cancel</PillButton>
-            <PillButton type="submit" variant="ink" className="flex-1" disabled={pending || !to || !body.trim()}>
-              {pending ? "Sending…" : "Send"}
-            </PillButton>
-          </div>
+          <PillButton type="submit" variant="ink" className="w-full" disabled={pending || !to || !body.trim()}>
+            {pending ? "Wrapping it up…" : "Send with Lotl"}
+          </PillButton>
         </form>
       </Modal>
     </div>

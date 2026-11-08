@@ -1,0 +1,467 @@
+<!doctype html>
+<html lang="en" data-type="software" data-radius="round" data-ground="sky" data-buttons="solid" data-motion>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Regather: peer support for families after a youth mental health crisis</title>
+<meta name="description" content="A private group of 5 to 8 families going through the same thing, with a mentor family, for 8 weeks. Join with a code from your clinic, ER or program.">
+<meta property="og:type" content="website">
+<meta property="og:title" content="Regather: peer support for families, any hour">
+<meta property="og:description" content="Small, invite-only groups of families after a youth mental health crisis, guided by a mentor family.">
+<meta property="og:image" content="share.jpg">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="icon" href="favicon.svg" type="image/svg+xml">
+<meta name="theme-color" content="#0e1530">
+<!-- <link rel="canonical" href="https://[the client's domain]/"> -->
+<meta name="site-kind" content="software">
+<meta name="page-type" content="software">
+<link rel="preload" href="assets/fonts/instrument-sans.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="assets/system.css">
+<link rel="stylesheet" href="assets/ui/cards.css">
+<link rel="stylesheet" href="assets/motion/motion.css">
+<link rel="stylesheet" href="assets/backgrounds/backgrounds.css">
+<link rel="stylesheet" href="assets/layout/layout.css">
+<link rel="stylesheet" href="assets/icons/icon.css">
+<!-- Regather's own colours (start.mjs brand): night water, warm paper, Lotl pink. Fonts self-hosted: no third-party requests. -->
+<style>
+@font-face { font-family: "Instrument Sans"; src: url("assets/fonts/instrument-sans.woff2") format("woff2"); font-weight: 400 700; font-stretch: 75% 100%; font-display: swap; }
+@font-face { font-family: "Caveat"; src: url("assets/fonts/caveat-500.woff2") format("woff2"); font-weight: 500; font-display: swap; }
+:root {
+  --p-bg: #0e1530; --p-surface: #172044; --p-ink: #f4efe8; --p-muted: #a9b1cc;
+  --p-accent: #f5a3b5; --p-accent-ink: #0e1530; --p-action: #f5a3b5; --p-action-ink: #0e1530;
+  --p-inv-bg: #f4efe8; --p-inv-surface: #e1deda; --p-inv-ink: #0e1530; --p-inv-muted: #5a6072;
+  --p-inv-accent: #0e1530; --p-inv-accent-ink: #f4efe8; --p-inv-action: #0e1530; --p-inv-action-ink: #f4efe8;
+  --font-display: "Instrument Sans", system-ui, sans-serif;
+  --font-text: "Instrument Sans", system-ui, sans-serif;
+  --font-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --display-weight: 500;
+  --display-tracking: -0.028em;
+  --display-tracking-xl: -0.036em;
+  --display-stretch: 96%;
+  --ly-scale: 1.04;
+}
+</style>
+<link rel="stylesheet" href="assets/ui/base.css">
+<link rel="stylesheet" href="assets/ui/notify/fragment.css">
+<link rel="stylesheet" href="assets/ui/checklist/fragment.css">
+<script>document.documentElement.classList.add('m-enter');setTimeout(()=>document.documentElement.classList.add('m-enter-done'),700)</script>
+<script src="assets/backgrounds/backgrounds.js"></script>
+<script>document.documentElement.classList.add('mo-js');setTimeout(()=>document.documentElement.classList.add('mo-safe'),2500)</script>
+<link rel="modulepreload" href="assets/moments/moments.js">
+<link rel="modulepreload" href="assets/moments/lib.js">
+<link rel="modulepreload" href="assets/moments/letters-assemble/moment.js">
+<link rel="modulepreload" href="assets/moments/line-carries-colour/moment.js">
+<!-- page CSS: only what sits inside a visual (Regather's own app UI, drawn as live HTML), and one --p-h per card group -->
+<style>
+/* ---------- the pond window (the app itself) ---------- */
+.pw { --pw-bg: #121a3a; --pw-line: rgb(255 255 255 / .08); --pw-ink: #f1ede6; --pw-muted: #9aa3c2;
+  background: var(--pw-bg); color: var(--pw-ink); border-radius: 18px; overflow: hidden;
+  box-shadow: 0 0 0 1px var(--pw-line), 0 30px 60px -30px rgb(0 0 0 / .7); font: 400 14px/1.45 var(--font-text); text-align: left; }
+.pw__bar { display: flex; align-items: center; gap: 10px; height: 44px; padding: 0 16px; border-bottom: 1px solid var(--pw-line); color: var(--pw-muted); font-size: 13px; }
+.pw__bar b { color: var(--pw-ink); font-weight: 500; } .pw__bar .sp { flex: 1; }
+.pw__help { height: 26px; padding: 0 10px; border-radius: 99px; background: #ffe8b8; color: #0e1530; display: inline-flex; align-items: center; font-weight: 500; }
+.pw__body { display: grid; grid-template-columns: 240px 1fr; min-height: 420px; }
+.pw__side { border-right: 1px solid var(--pw-line); padding: 14px; display: grid; align-content: start; gap: 14px; }
+.pw__pond { height: 92px; border-radius: 12px; position: relative; overflow: hidden;
+  background: linear-gradient(#1c2a5c, #1c2a5c 38%, #2f6f8c 38%, #24576f); }
+.pw__pond i { position: absolute; width: 9px; height: 9px; border-radius: 50%; background: #fff3c4; box-shadow: 0 0 12px 4px rgb(255 205 120 / .55); }
+.pw__pond u { position: absolute; height: 9px; border-radius: 50%; background: #6cbb89; text-decoration: none; }
+.pw__label { color: var(--pw-muted); font-size: 13px; margin: 0 0 6px; }
+.pw__people { display: grid; gap: 4px; margin: 0; padding: 0; list-style: none; }
+.pw__people li { display: flex; align-items: center; gap: 8px; height: 30px; font-size: 13px; }
+.pw__people .dot { width: 8px; height: 8px; border-radius: 50%; background: #ffd27a; box-shadow: 0 0 8px rgb(255 210 122 / .8); }
+.pw__people .dot--off { background: #3a456f; box-shadow: none; }
+.pw__people small { margin-left: auto; color: var(--pw-muted); font-size: 13px; }
+.pw__chat { display: grid; align-content: start; gap: 10px; padding: 16px 18px; min-width: 0; }
+.pw__who { font-size: 13px; color: var(--pw-muted); margin: 0 0 3px 4px; }
+.pw__who em { font-style: normal; color: #0e1530; background: #86cfa0; border-radius: 99px; padding: 0 7px; margin-left: 4px; font-size: 13px; }
+.pw__msg { max-width: 82%; padding: 9px 14px; border-radius: 18px 18px 18px 6px; background: #1f2a55; }
+.pw__msg--me { justify-self: end; border-radius: 18px 18px 6px 18px; background: #fde3e8; color: #0e1530; }
+.pw__check { justify-self: center; display: inline-flex; align-items: center; gap: 8px; padding: 4px 14px 4px 5px; border-radius: 99px; background: rgb(255 255 255 / .08); font-size: 13px; }
+.pw__check svg { width: 26px; height: 26px; background: #f4efe8; border-radius: 50%; padding: 2px; }
+.pw__replies { display: flex; gap: 8px; flex-wrap: wrap; }
+.pw__replies span { height: 32px; padding: 0 14px; border-radius: 99px; display: inline-flex; align-items: center; background: rgb(255 255 255 / .1); font-size: 13px; font-weight: 500; }
+@media (max-width: 1279px) { .pw__check { display: none; } }
+@media (max-width: 639px) { .pw__body { grid-template-columns: 1fr; } .pw__side { display: none; } .pw__bar .sp ~ span:not(.pw__help) { display: none; } .pw__chat { padding: 12px 14px; } }
+
+/* ---------- the awake lights under the statement ---------- */
+.awake-frame { margin-top: var(--s-8); --ratio: 15.6%; padding: 0; overflow: hidden; }
+.awake-frame > .awake-art { position: absolute; inset: 0; width: 100%; height: 100%; }
+.awake-dot { animation: awake-glow 4s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes awake-glow { 0%, 100% { opacity: .65; } 50% { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) { .awake-dot { animation: none; } }
+@media (max-width: 639px) { .awake-frame { --ratio: 46%; margin-top: var(--s-6); } }
+
+/* ---------- the steps (three app screens) ---------- */
+#how .panel, #inside .panel { --p-h: 336px; }
+@media (min-width: 640px) and (max-width: 1279px) { #how { --h: 2; } #how .panel { --p-h: 280px; } #inside .panel { --p-h: 260px; } }
+@media (min-width: 1024px) and (max-width: 1279px) { #how .panel { --p-h: 180px; } #how .card > p { display: none; } }
+@media (min-width: 640px) and (max-width: 1023px) { #privacy .who__row { min-height: 68px; } }
+@media (max-width: 639px) { #how .panel, #inside .panel { --p-h: 168px; } }
+.ticket { background: #fffaf4; color: #0e1530; border-radius: 16px; padding: 18px; border: 2px dashed #f5a3b5; display: grid; gap: 10px; font: 400 14px/1.4 var(--font-text); }
+.ticket__label { font-weight: 500; font-size: 13px; color: #5a6072; }
+.ticket__code { font: 500 16px/1 var(--font-mono); letter-spacing: .06em; background: #fff; border: 1px solid #eadfd6; border-radius: 10px; padding: 12px; }
+.ticket__ok { display: flex; align-items: center; gap: 8px; font-weight: 500; }
+.ticket__ok i { width: 20px; height: 20px; border-radius: 50%; background: #86cfa0; display: grid; place-items: center; font-style: normal; font-size: 12px; }
+#how .ui-check.is-done .ui-check__label { color: inherit; } #how .ui-check.is-done .ui-check__label::after { display: none; }
+.pondgrow { width: 100%; height: 100%; display: block; }
+
+/* ---------- inside the app (four small screens) ---------- */
+.mini { background: #121a3a; color: #f1ede6; border-radius: 16px; padding: 16px; font: 400 14px/1.45 var(--font-text); box-shadow: 0 0 0 1px rgb(255 255 255 / .08); }
+.mini h4 { margin: 0 0 4px; font: 500 16px/1.3 var(--font-text); }
+.mini p { margin: 0 0 12px; color: #9aa3c2; font-size: 13px; }
+.wx-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 4px; text-align: center; font-size: 13px; color: #c9cfe3; }
+.wx-row span { display: grid; justify-items: center; gap: 4px; padding: 8px 0; border-radius: 12px; }
+.wx-row span.is-on { background: rgb(253 227 232 / .16); color: #fff; }
+.wx-row svg { width: 38px; height: 38px; }
+.replies-mini { display: grid; gap: 8px; }
+.replies-mini .pw__msg { max-width: 100%; }
+.replies-mini .row { display: flex; gap: 8px; flex-wrap: wrap; }
+.replies-mini .row span { height: 34px; padding: 0 14px; border-radius: 99px; display: inline-flex; align-items: center; background: rgb(255 255 255 / .1); font-size: 13px; font-weight: 500; }
+.replies-mini .row span.is-on { background: #f5a3b5; color: #0e1530; }
+.hidden-mini .pw__msg { max-width: 100%; }
+.hidden-mini .redact { display: inline-block; background: rgb(255 255 255 / .14); border-radius: 6px; padding: 0 6px; color: #c9cfe3; }
+.hidden-mini small { display: block; margin-top: 8px; color: #9aa3c2; font-size: 13px; }
+
+/* ---------- comfort notes (paper section) ---------- */
+#notes .frame--split { --ratio: 106%; background: #e9e2d6; border-color: rgb(14 21 48 / .08); }
+.cnote { position: absolute; width: 230px; padding: 18px 18px 14px; border-radius: 18px; color: #0e1530; box-shadow: 0 18px 30px -18px rgb(14 21 48 / .45); font: 500 25px/1.1 "Caveat", cursive; }
+.cnote small { display: block; margin-top: 10px; font: 500 13px/1.3 var(--font-text); color: #5a6072; }
+.cnote--a { background: #fde3e8; left: 8%; top: 12%; }
+.cnote--b { background: #e2f4e7; left: 30%; top: 52%; }
+.cjar { position: absolute; right: 9%; bottom: 8%; width: 150px; }
+@media (max-width: 1279px) { .cnote { width: 200px; font-size: 22px; } .cjar { width: 120px; } }
+@media (max-width: 639px) { .cnote { width: 170px; font-size: 20px; padding: 14px; } .cnote--b { left: 30%; top: 50%; } .cjar { width: 96px; right: 6%; } }
+
+/* ---------- who can read what ---------- */
+.who { display: grid; gap: 0; }
+.who__row { display: grid; grid-template-columns: repeat(12, minmax(0, 1fr)); column-gap: var(--g, 24px); align-items: center; min-height: 56px; border-bottom: 1px solid var(--line); }
+.who__row > :first-child { grid-column: span 3; font-weight: 500; }
+.who__row > :not(:first-child) { grid-column: span 3; color: var(--ink); }
+.who__row--head { border-bottom: 0; min-height: 40px; }
+.who__row--head > * { color: var(--muted) !important; font-size: 13px; font-weight: 500; }
+@media (max-width: 639px) {
+  .who__row { grid-template-columns: 1fr; padding: 12px 0; gap: 4px; }
+  .who__row > * { grid-column: auto !important; }
+  .who__row--head { display: none; }
+  .who__row > :not(:first-child)::before { content: attr(data-col); display: block; color: var(--muted); font-size: 13px; }
+}
+
+@media (max-width: 639px) { .pill__more { display: none; } }
+#faq .faq a { text-decoration: underline; text-underline-offset: 3px; font-weight: 500; }
+.close__word { font-size: calc((100vw - 2 * var(--gut)) / 4.4); line-height: .9; }
+@media (min-width: 1440px) { .close__word { font-size: 290px; } }
+.hero__window .loop-pause:focus-visible { box-shadow: 0 0 0 2px #fff, 0 0 0 5px #0e1530 !important; }
+.helpsheet { margin-top: var(--s-6); max-width: 440px; }
+.helpsheet ul { list-style: none; margin: 0; padding: 0; display: grid; gap: 8px; }
+.helpsheet li { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 10px 12px; border-radius: 12px; background: rgb(255 255 255 / .06); }
+.helpsheet li b { display: block; font-weight: 500; color: #f1ede6; font-size: 14px; }
+.helpsheet li span { color: #9aa3c2; font-size: 13px; }
+.helpsheet li i { font-style: normal; font-weight: 500; background: #ffe8b8; color: #0e1530; border-radius: 99px; padding: 6px 12px; white-space: nowrap; font-size: 14px; }
+/* the note shown after an account is deleted (/?goodbye=1) */
+.goodbye { margin: 0 0 16px; }
+</style>
+</head>
+<body>
+<!-- type: software (an app)
+     deal: hero centred, nav nav-centre (dealt nav-cards; no photographs, so dealt again from nav-split|nav-centre), close close-word,
+     footer footer-dark, rhythm dark-band (on this dark page the one inverse band is the warm paper of the comfort-notes section),
+     buttons solid, mark wordmark, ground sky; palette: the client's own colours via start.mjs brand (night water, warm paper,
+     Lotl pink), type instrument; effect grain-gradient in the hero frame
+     moments: letters-assemble (#awake, its own statement section), line-carries-colour (#notes, the paper band) -->
+
+<header class="nav nav--centre">
+  <div class="wrap nav__bar">
+    <a class="skip-link" href="#top">Skip to content</a>
+    <a class="nav__logo" href="#top">Regather</a>
+    <nav class="nav__links" aria-label="Main">
+      <div class="nav__item"><a class="nav__link" href="#how">Ponds</a></div>
+      <div class="nav__item"><a class="nav__link" href="#inside">App</a></div>
+      <div class="nav__item"><a class="nav__link" href="#notes">Notes</a></div>
+      <div class="nav__item"><a class="nav__link" href="#privacy">Privacy</a></div>
+      <div class="nav__item"><a class="nav__link" href="#faq">Questions</a></div>
+    </nav>
+    <div class="nav__actions">
+      <a class="nav__link" href="/login">Sign in</a>
+      <a class="btn btn--primary" href="/join">Join with your code</a>
+    </div>
+    <button class="nav__toggle" type="button" aria-expanded="false" aria-label="Menu"><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><path d="M2 5h14M2 13h14" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg></button>
+  </div>
+</header>
+
+<main id="top">
+  <section class="hero hero--centred" data-enter aria-labelledby="hero-h">
+    <div class="wrap"><div class="hero-text">
+      <div class="hero__c">
+        <p class="goodbye pill" data-goodbye hidden><span>Your account and messages are deleted.</span><span class="muted">A new code brings you back.</span></p>
+        <a class="pill" href="#faq"><span>Invite-only</span><span class="muted pill__more">Codes come from your clinic, ER or program</span></a>
+        <h1 id="hero-h">Peer support for families, any hour</h1>
+        <p class="hero__lead">A private group of 5 to 8 families going through the same thing after a youth mental health crisis, with a mentor family who has been there. Eight weeks, chat any hour.</p>
+        <div class="btn-row"><a class="btn btn--primary" href="/join">Join with your code<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a><a class="btn btn--secondary" href="#how">See how a pond works</a></div>
+      </div>
+      <div class="hero__window" data-fx="grain-gradient" data-fx-seed="2" role="img" aria-label="The Regather app at 2:14 a.m.: Sam writes that their daughter is finally asleep, Dana the mentor replies, and two others in the pond are awake">
+        <div class="ly-piece pw" aria-hidden="true">
+          <div class="pw__bar"><b>Pond Willow</b><span>Week 3 of 8</span><span class="sp"></span><span>3 awake</span><span class="pw__help">Help</span></div>
+          <div class="pw__body">
+            <div class="pw__side">
+              <div class="pw__pond"><u style="left:12%;top:58%;width:44px"></u><u style="left:62%;top:72%;width:34px"></u><i style="left:22%;top:20%"></i><i style="left:48%;top:12%"></i><i style="left:74%;top:26%"></i></div>
+              <div><p class="pw__label">Awake now</p>
+                <ul class="pw__people"><li><span class="dot"></span>Sam<small>2:14</small></li><li><span class="dot"></span>Dana<small>mentor</small></li></ul></div>
+            </div>
+            <div class="pw__chat" data-ly-steps="900">
+              <div class="pw__check"><svg viewBox="0 0 48 48"><path d="M14 30a7 7 0 0 1 .8-14A10 10 0 0 1 34 14.5 7.5 7.5 0 0 1 35 30Z" fill="#dbe6f3" stroke="#9fb6d4" stroke-width="1.6"/><path d="M18 34c-1 2-1 3.5 0 3.5s1-1.5 0-3.5ZM26 36c-1 2-1 3.5 0 3.5s1-1.5 0-3.5Z" fill="#7fb9e6"/></svg>Sam's day felt rainy</div>
+              <div><p class="pw__who">Sam</p><div class="pw__msg">She's finally asleep. I keep getting up to check her door.</div></div>
+              <div data-step><p class="pw__who">Dana<em>mentor</em></p><div class="pw__msg">We did that for months. Leave the hall light on and lie down. I'm up until 3 if you want to talk.</div></div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div></div>
+  </section>
+
+  <section class="section" id="how" aria-labelledby="how-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="how-h">Into a pond in 3 steps. <span class="muted">You are matched as soon as you answer.</span></h2>
+      </div>
+      <div class="grid">
+        <article class="card card--row card--open span-4">
+          <span class="step-num">1</span>
+          <h3>Get a code from your care team</h3>
+          <p>Your ER peer worker, clinic or nonprofit gives you one. It shows someone vouches for you.</p>
+          <div class="panel" role="img" aria-label="An invite code, accepted">
+            <div class="stage"><div class="at-rise fit" style="--fit-max:300px;--ax:max(24px, 50% - 150px);--ay:56px;--ay-sm:24px">
+              <div class="ticket" aria-hidden="true"><span class="ticket__label">Your invite code</span><span class="ticket__code">RGTH-7KQ2-…</span><span class="ticket__ok"><i>✓</i>From your ER peer worker</span></div>
+            </div></div>
+          </div>
+        </article>
+        <article class="card card--row card--open span-4">
+          <span class="step-num">2</span>
+          <h3>Answer five short questions</h3>
+          <p>Who you are, what you're facing, and when you're usually up. Skip any of them.</p>
+          <div class="panel" role="img" aria-label="The five questions, three answered">
+            <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:300px;--ax:max(24px, 50% - 150px);--ay:calc(100% - 200px);--ay-sm:24px">
+              <div class="ui ui-panel ui-checks" data-ui="checklist" aria-hidden="true">
+                <div class="ui-checks__head"><div class="ui-title">About you</div><span class="ui-spacer"></span><div class="ui-meta" data-checks-count>3 of 5</div></div>
+                <div class="ui-checks__bar"><i data-checks-bar style="--k:0.6"></i></div>
+                <ul class="ui-checks__list">
+                  <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">I am a parent</span></li>
+                  <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Just after a crisis</span></li>
+                  <li class="ui-check is-done"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">My child is 13 to 15</span></li>
+                  <li class="ui-check"><span class="ui-check__box"><svg viewBox="0 0 16 16"><path d="m4.5 8.2 2.3 2.3 4.7-5"/></svg></span><span class="ui-check__label">Up late at night</span></li>
+                </ul>
+              </div>
+            </div></div>
+          </div>
+        </article>
+        <article class="card card--row card--open span-4">
+          <span class="step-num">3</span>
+          <h3>Meet the families in your pond</h3>
+          <p>You stay together for 8 weeks. Lily pads and fish fill the pond as the weeks go by.</p>
+          <div class="panel" role="img" aria-label="Pond Willow in week 3: lily pads, a flower and a fish on night water">
+            <svg class="pondgrow" viewBox="0 0 400 336" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+              <rect width="400" height="336" fill="#16204a"/>
+              <circle cx="320" cy="64" r="22" fill="#fbf3dc"/><circle cx="312" cy="58" r="22" fill="#16204a"/>
+              <path d="M0 150 Q100 132 200 146 T400 144 V336 H0Z" fill="#2f6f8c"/>
+              <path d="M0 176 Q100 168 200 176 T400 176" stroke="#fff" stroke-opacity=".3" fill="none"/>
+              <ellipse cx="96" cy="220" rx="46" ry="14" fill="#6cbb89"/><path d="M96 220 L142 216 L138 226Z" fill="#2f6f8c"/>
+              <ellipse cx="290" cy="250" rx="38" ry="12" fill="#6cbb89"/><path d="M290 250 L328 246 L324 256Z" fill="#2f6f8c"/>
+              <ellipse cx="190" cy="290" rx="30" ry="10" fill="#6cbb89"/>
+              <g transform="translate(98 212)"><path d="M0 0c-9 0-13-9-12-15 4 1 9 6 12 15Z" fill="#f7b3c4"/><path d="M0 0c9 0 13-9 12-15-4 1-9 6-12 15Z" fill="#f7b3c4"/><path d="M0 0c-4-8-4-15 0-21 4 6 4 13 0 21Z" fill="#fff"/><circle cy="-5" r="2.6" fill="#ffd36e"/></g>
+              <path d="M220 214c8-6 18-6 24 0-6 6-16 6-24 0Zm0 0-8-5v10Z" fill="#ffb27a"/>
+              <circle cx="80" cy="96" r="5" fill="#fff3c4"/><circle cx="160" cy="76" r="5" fill="#fff3c4"/><circle cx="236" cy="100" r="5" fill="#fff3c4"/>
+              <g fill="none" stroke="#fff" stroke-opacity=".5"><ellipse cx="150" cy="250" rx="18" ry="5"/><ellipse cx="330" cy="300" rx="14" ry="4"/></g>
+            </svg>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="awake" data-moment="letters-assemble" data-moment-opts='{"spread": 0.8}' aria-labelledby="awake-h">
+    <div class="wrap">
+      <h2 id="awake-h" class="mo-la__type">Someone else is up</h2>
+      <p class="mo-la__sub">Everyone awake in your pond shows as a small light over the water. Tap one to say hi, or just know they are there.</p>
+      <div class="frame awake-frame" role="img" aria-label="Night water with three small lights over it, one for each person awake">
+        <svg class="awake-art" viewBox="0 0 1280 200" preserveAspectRatio="xMidYMid slice" aria-hidden="true">
+          <rect width="1280" height="200" fill="#121a3a"/>
+          <path d="M0 108 Q320 92 640 104 T1280 100 V200 H0Z" fill="#2a6684"/>
+          <path d="M0 128 Q320 120 640 128 T1280 124" stroke="#fff" stroke-opacity=".22" fill="none"/>
+          <path d="M0 158 Q320 152 640 158 T1280 154" stroke="#fff" stroke-opacity=".12" fill="none"/>
+          <ellipse cx="180" cy="168" rx="80" ry="16" fill="#5aa77a"/><path d="M180 168 L262 162 L256 176Z" fill="#2a6684"/>
+          <ellipse cx="1040" cy="178" rx="64" ry="13" fill="#5aa77a"/>
+          <g class="awake-dot"><circle cx="420" cy="44" r="24" fill="#ffd27a" opacity=".18"/><circle cx="420" cy="44" r="7" fill="#fff3c4"/></g>
+          <g class="awake-dot" style="--d:1.2s"><circle cx="640" cy="32" r="24" fill="#ffd27a" opacity=".18"/><circle cx="640" cy="32" r="7" fill="#fff3c4"/></g>
+          <g class="awake-dot" style="--d:2.4s"><circle cx="860" cy="50" r="24" fill="#ffd27a" opacity=".18"/><circle cx="860" cy="50" r="7" fill="#fff3c4"/></g>
+          <g fill="#f4efe8" font-size="16" font-family="Instrument Sans, sans-serif" text-anchor="middle"><text x="420" y="88">Sam</text><text x="640" y="76">Dana</text><text x="860" y="94">You</text></g>
+          <g stroke="#fff" stroke-opacity=".35" fill="none"><ellipse cx="420" cy="140" rx="30" ry="5"/><ellipse cx="860" cy="146" rx="26" ry="5"/></g>
+        </svg>
+      </div>
+    </div>
+  </section>
+
+  <section class="section g2" id="inside" aria-labelledby="inside-h">
+    <div class="wrap">
+      <div class="group">
+        <div class="section-head">
+          <h2 id="inside-h">Inside the Regather app. <span class="muted">Made for nights when typing feels like too much.</span></h2>
+        </div>
+        <div class="grid">
+          <article class="card card--row card--open span-6">
+            <h3>Shares how today felt as weather</h3>
+            <p>One tap from stormy to a little rainbow. Your pond sees only the weather.</p>
+            <div class="panel" role="img" aria-label="The daily check-in with five weathers, rainy chosen">
+              <div class="stage"><div class="at-rise fit" style="--fit-max:420px;--ax:max(24px, 50% - 210px);--ay:56px;--ay-sm:24px">
+                <div class="mini" aria-hidden="true"><h4>How did today feel?</h4><p>Pick the weather. No need to explain.</p>
+                  <div class="wx-row">
+                    <span><svg viewBox="0 0 48 48"><path d="M14 30a7 7 0 0 1 .8-14A10 10 0 0 1 34 14.5 7.5 7.5 0 0 1 35 30Z" fill="#a9b4cf"/><path d="M16 34l-2 6M23 36l-2 6M30 34l-2 6" stroke="#6fa3d6" stroke-width="2.4" stroke-linecap="round"/></svg>Stormy</span>
+                    <span class="is-on"><svg viewBox="0 0 48 48"><path d="M14 30a7 7 0 0 1 .8-14A10 10 0 0 1 34 14.5 7.5 7.5 0 0 1 35 30Z" fill="#dbe6f3"/><path d="M18 34c-1 2-1 3.5 0 3.5s1-1.5 0-3.5ZM26 36c-1 2-1 3.5 0 3.5s1-1.5 0-3.5ZM33 34c-1 2-1 3.5 0 3.5s1-1.5 0-3.5Z" fill="#7fb9e6"/></svg>Rainy</span>
+                    <span><svg viewBox="0 0 48 48"><circle cx="32" cy="15" r="7" fill="#ffe2a0"/><path d="M14 30a7 7 0 0 1 .8-14A10 10 0 0 1 34 14.5 7.5 7.5 0 0 1 35 30Z" fill="#f4f6fb"/></svg>Cloudy</span>
+                    <span><svg viewBox="0 0 48 48"><circle cx="24" cy="24" r="9" fill="#ffd36e"/><g stroke="#f0b244" stroke-width="2.4" stroke-linecap="round"><path d="M24 7v4M24 37v4M7 24h4M37 24h4M12 12l3 3M33 33l3 3M12 36l3-3M33 15l3-3"/></g></svg>Sunny</span>
+                    <span><svg viewBox="0 0 48 48" fill="none" stroke-width="3" stroke-linecap="round"><path d="M8 34a16 16 0 0 1 32 0" stroke="#f59ab0"/><path d="M12 34a12 12 0 0 1 24 0" stroke="#ffd36e"/><path d="M16 34a8 8 0 0 1 16 0" stroke="#8fd3a8"/></svg>Rainbow</span>
+                  </div>
+                </div>
+              </div></div>
+            </div>
+          </article>
+          <article class="card card--row card--open span-6">
+            <h3>Replies in one tap on low days</h3>
+            <p>"I'm here", "Same" and "Sending you a hug" sit above the keyboard, so nobody waits on a long message.</p>
+            <div class="panel" role="img" aria-label="A message from Pip's dad and the one-tap replies, I'm here chosen">
+              <div class="stage"><div class="at-rise fit" style="--fit-max:420px;--ax:max(24px, 50% - 210px);--ay:56px;--ay-sm:24px">
+                <div class="mini replies-mini" aria-hidden="true"><p class="pw__who">Pip's dad</p><div class="pw__msg">Rough appointment today. Not ready to talk about it.</div>
+                  <div class="row"><span class="is-on">I'm here</span><span>Same</span><span>Sending you a hug</span></div></div>
+              </div></div>
+            </div>
+          </article>
+        </div>
+      </div>
+      <div class="grid">
+        <article class="card card--row card--open span-6">
+          <h3>Asks the mentor for a one-to-one</h3>
+          <p>Mentor families have been through it. Their one-to-one chats can be read by a moderator at your program.</p>
+          <div class="panel" role="img" aria-label="A notification: Dana accepted your request for a one-to-one">
+            <div class="stage stage--fade-b"><div class="at-rise fit" style="--fit-max:400px;--ax:max(24px, 50% - 200px);--ay:calc(100% - 180px);--ay-sm:24px">
+              <div class="ui ui-notify" data-ui="notify" aria-hidden="true">
+                <ul class="ui-notify__list" data-notify-list>
+                  <li class="ui-note"><span class="ui-avatar ui-note__av" data-tone="3">D</span><span class="ui-note__text"><span class="ui-note__title">Dana said yes to a one-to-one<time>now</time></span><span class="ui-note__body">A moderator can see this chat</span></span><span class="ui-btn ui-btn--sm ui-note__btn">Open</span></li>
+                  <li class="ui-note"><span class="ui-avatar ui-note__av" data-tone="5">S</span><span class="ui-note__text"><span class="ui-note__title">Sam sent you something<time>1h</time></span><span class="ui-note__body">A note is waiting in your jar</span></span></li>
+                </ul>
+              </div>
+            </div></div>
+          </div>
+        </article>
+        <article class="card card--row card--open span-6">
+          <h3>Hides phone numbers and addresses</h3>
+          <p>Phone numbers, emails, links and street addresses are taken out of messages until people have known each other a while.</p>
+          <div class="panel" role="img" aria-label="A message with a phone number hidden">
+            <div class="stage"><div class="at-rise fit" style="--fit-max:420px;--ax:max(24px, 50% - 210px);--ay:56px;--ay-sm:24px">
+              <div class="mini hidden-mini" aria-hidden="true"><div class="pw__msg pw__msg--me">Text me any time, my number is <span class="redact">hidden for now</span></div><small>Contact details are hidden for now, to keep everyone safe.</small></div>
+            </div></div>
+          </div>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="privacy" aria-labelledby="privacy-h">
+    <div class="wrap">
+      <div class="section-head">
+        <h2 id="privacy-h">Privacy, line by line. <span class="muted">Parents and teens are never in the same pond.</span></h2>
+      </div>
+      <div class="who" role="table" aria-label="Who can read each part of Regather">
+        <div class="who__row who__row--head" role="row"><span role="columnheader">What you write</span><span role="columnheader">Your pond</span><span role="columnheader">Your parent or teen</span><span role="columnheader">Your program</span></div>
+        <div class="who__row" role="row"><span role="rowheader">Pond chat</span><span role="cell" data-col="Your pond">Everyone in it, and the mentor</span><span role="cell" data-col="Your parent or teen">No</span><span role="cell" data-col="Your program">How busy it is, never the words</span></div>
+        <div class="who__row" role="row"><span role="rowheader">Your nickname</span><span role="cell" data-col="Your pond">Everyone in it</span><span role="cell" data-col="Your parent or teen">No</span><span role="cell" data-col="Your program">Yes, with your role</span></div>
+        <div class="who__row" role="row"><span role="rowheader">Weather check-ins</span><span role="cell" data-col="Your pond">Everyone in it</span><span role="cell" data-col="Your parent or teen">No</span><span role="cell" data-col="Your program">Counted, never shown</span></div>
+        <div class="who__row" role="row"><span role="rowheader">Private chats</span><span role="cell" data-col="Your pond">Only the person you both said yes to</span><span role="cell" data-col="Your parent or teen">No</span><span role="cell" data-col="Your program">No</span></div>
+        <div class="who__row" role="row"><span role="rowheader">Mentor one-to-ones</span><span role="cell" data-col="Your pond">Only your mentor</span><span role="cell" data-col="Your parent or teen">No</span><span role="cell" data-col="Your program">A moderator can read them</span></div>
+        <div class="who__row" role="row"><span role="rowheader">Comfort notes</span><span role="cell" data-col="Your pond">Only the person you send it to</span><span role="cell" data-col="Your parent or teen">No</span><span role="cell" data-col="Your program">Only if the safety check flags it</span></div>
+        <div class="who__row" role="row"><span role="rowheader">A message about not being safe</span><span role="cell" data-col="Your pond">The people it was sent to</span><span role="cell" data-col="Your parent or teen">No</span><span role="cell" data-col="Your program">A moderator is told right away</span></div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section ground-inverse" id="notes" data-moment="line-carries-colour" data-moment-opts='{"from": "base"}' aria-labelledby="notes-h">
+    <div class="wrap">
+      <div class="grid">
+        <div class="span-5 stack-5">
+          <h2 id="notes-h">Regather comfort notes, kept in a jar</h2>
+          <p class="t-lead">Send someone in your pond a short note with a sticker when words are hard. Lotl, the axolotl, carries it across. The ones you keep gather in your jar to reread on a bad night.</p>
+          <ul class="stack-3">
+            <li>Up to 280 characters, shown in handwriting</li>
+            <li>The notes you keep stay in your jar</li>
+            <li>Every note gets the same safety check as chat</li>
+          </ul>
+          <a class="link" href="#privacy">See who can read your notes</a>
+        </div>
+        <div class="frame frame--split span-6 start-7" role="img" aria-label="Two comfort notes in handwriting beside a glass jar of kept notes">
+          <div class="stage" aria-hidden="true">
+            <div class="cnote cnote--a">Proud of you for getting through today.<small>From Sam · shell sticker</small></div>
+            <div class="cnote cnote--b">Same song got me through last winter.<small>From Dana · lily sticker</small></div>
+            <svg class="cjar" viewBox="0 0 200 240"><path d="M62 44H138V60C162 70 172 92 172 120V196C172 214 158 226 140 226H60C42 226 28 214 28 196V120C28 92 38 70 62 60Z" fill="#fff" fill-opacity=".55" stroke="#0e1530" stroke-opacity=".25" stroke-width="3"/><g><rect x="58" y="170" width="30" height="20" rx="4" fill="#fde3e8"/><rect x="96" y="182" width="30" height="20" rx="4" fill="#e2f4e7" transform="rotate(8 111 192)"/><rect x="120" y="160" width="30" height="20" rx="4" fill="#fff0d6" transform="rotate(-10 135 170)"/><rect x="80" y="146" width="30" height="20" rx="4" fill="#dff0f8" transform="rotate(12 95 156)"/></g><rect x="54" y="24" width="92" height="24" rx="8" fill="#e8b98f"/><path d="M100 48c-14-2-20 10-10 14 6 2 10-6 10-14 0 8 4 16 10 14 10-4 4-16-10-14Z" fill="#f5a3b5"/></svg>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="section" id="faq" aria-labelledby="faq-h">
+    <div class="wrap">
+      <div class="grid grid--top">
+        <div class="span-5 stack-4">
+          <h2 id="faq-h">Questions families ask</h2>
+          <p class="muted">The rules are in the privacy notes, written for parents and teens.</p>
+          <a class="link" href="/privacy">Read the privacy notes</a>
+          <div class="mini helpsheet" role="img" aria-label="The Help sheet in the app, one tap from every screen: 9-8-8, Distress Centre Calgary and 9-1-1">
+            <div aria-hidden="true">
+              <h4>You're not alone tonight.</h4>
+              <p>These lines are free, open all night, and a real person answers.</p>
+              <ul><li><span><b>988 Suicide Crisis Helpline</b>Call or text, 24/7</span><i>9-8-8</i></li><li><span><b>Distress Centre Calgary</b>Call, 24/7</span><i>403-266-4357</i></li><li><span><b>Emergency</b>If you are in danger now</span><i>9-1-1</i></li></ul>
+            </div>
+          </div>
+        </div>
+        <div class="faq span-6 start-7">
+          <div class="faq__item"><h3>Who can join Regather?</h3><p>Families referred by an ER peer worker, clinic or nonprofit that works with Regather. They give you an invite code. There is no open sign-up.</p></div>
+          <div class="faq__item"><h3>Is Regather therapy?</h3><p>No. People share what they have lived, not medical advice. Mentors are parents and young adults trained by your program.</p></div>
+          <div class="faq__item"><h3>Is my privacy kept from my parent?</h3><p>No. Parents can never read a teen's pond or private chats, and teens can't read theirs.</p></div>
+          <div class="faq__item"><h3>What happens in a crisis?</h3><p>If you write something that sounds unsafe, you see the crisis lines straight away: 9-8-8, Distress Centre Calgary and 9-1-1. A moderator at your program is told. Your message is never deleted.</p></div>
+          <div class="faq__item"><h3>What happens after 8 weeks?</h3><p>You choose: keep the pond, join a new one, or move on and keep your private chats. Some families train to become mentors.</p></div>
+          <div class="faq__item"><h3>What if I need help right now?</h3><p>Call or text <a href="tel:988">9-8-8</a>, any hour. If someone is in danger, call <a href="tel:911">9-1-1</a>.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer closing footer--dark ground-inverse" id="contact" aria-labelledby="close-h">
+  <div class="wrap">
+    <div class="closing__cta close--word">
+      <div class="section-head--split">
+        <div><h2 id="close-h">Join with your code</h2><p class="t-lead">Ask the ER peer worker, clinic or program helping your family for one.</p></div>
+        <a class="btn btn--primary" href="/join">Join with your code<svg class="m-arrow" viewBox="0 0 12 12" aria-hidden="true"><path class="m-arrow__stem" d="M1 6h8"/><path class="m-arrow__head" d="M4.5 2.5 8 6l-3.5 3.5"/></svg></a>
+      </div>
+      <p class="close__word" aria-hidden="true">regather</p>
+    </div>
+    <div class="closing__links">
+      <div class="grid">
+        <div class="span-4 stack-4"><a class="nav__logo" href="#top">Regather</a><p class="footer__lede">Small groups of families, any hour.</p></div>
+        <div class="span-2 footer__col"><h3>Ponds</h3><ul><li><a href="#how">How it works</a></li><li><a href="#awake">Awake now</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>App</h3><ul><li><a href="#inside">Inside the app</a></li><li><a href="#notes">Comfort notes</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Privacy</h3><ul><li><a href="#privacy">Who can read what</a></li><li><a href="/privacy">Privacy notes</a></li></ul></div>
+        <div class="span-2 footer__col"><h3>Questions</h3><ul><li><a href="#faq">Questions</a></li><li><a href="/login">Sign in</a></li></ul></div>
+      </div>
+      <div class="footer__legal"><span>&copy; 2026 Regather &nbsp; <a href="/privacy">Privacy</a> &nbsp; In crisis, call or text <a href="tel:988">9-8-8</a></span><div class="socials"></div></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  // The note after an account is deleted (/?goodbye=1).
+  if (new URLSearchParams(location.search).get('goodbye') === '1') { const g = document.querySelector('[data-goodbye]'); if (g) g.hidden = false; }
+</script>
+<script type="module" src="assets/system.js"></script>
+<script type="module" src="assets/motion/motion.js"></script>
+<script type="module" src="assets/layout/layout.js"></script>
+</body>
+</html>

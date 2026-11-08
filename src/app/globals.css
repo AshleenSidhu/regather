@@ -1,19 +1,38 @@
 @import "tailwindcss";
 
 /* ------------------------------------------------------------------
-   Regather "Lake" design kit
-   Calm pond at dawn: airy, pastel, rounded, gently moving.
+   Regather "Night pond" design kit
+   A magical little pond: calm, warm, safe, alive. Paper cards float on a
+   living sky; motion carries the personality (float, drift, ripple, settle).
    ------------------------------------------------------------------ */
 
 :root {
-  --ink: #2f4569;
-  --ink-soft: #566a8f;
-  --on-sky: #2f4569; /* text colour for text that sits directly on the sky */
-  --cream: #fffaf7;
+  /* ink + paper */
+  --ink: #243052;
+  --ink-soft: #586487;
+  --on-sky: #243052; /* text that sits directly on the sky (changes with the phase) */
+  --on-sky-soft: rgb(36 48 82 / 0.78);
+  --paper: #fffaf4;
+  --paper-2: #fff2e6;
+  --cream: #fffaf4;
+
+  /* the pond's own colours */
+  --lotl: #f5a3b5;
+  --lotl-deep: #d9708a;
+  --lotl-soft: #fde3e8;
+  --lantern: #ffc96b;
+  --lantern-soft: #ffe8b8;
+  --lily: #86cfa0;
+  --lily-deep: #3f9a68;
+  --water: #7cc3d6;
+  --water-deep: #2f6f8c;
+  --mist: #e6f0f6;
+
+  /* legacy names kept for the partner dashboard and older components */
   --lake: #bfe1f3;
   --mint: #d7efdc;
   --blush: #f9d3cf;
-  --lilac: #dccff6;
+  --lilac: #fde3e8;
   --coral: #ec8a85;
 }
 
@@ -21,7 +40,20 @@
   --color-ink: var(--ink);
   --color-ink-soft: var(--ink-soft);
   --color-on-sky: var(--on-sky);
+  --color-on-sky-soft: var(--on-sky-soft);
+  --color-paper: var(--paper);
+  --color-paper-2: var(--paper-2);
   --color-cream: var(--cream);
+  --color-lotl: var(--lotl);
+  --color-lotl-deep: var(--lotl-deep);
+  --color-lotl-soft: var(--lotl-soft);
+  --color-lantern: var(--lantern);
+  --color-lantern-soft: var(--lantern-soft);
+  --color-lily: var(--lily);
+  --color-lily-deep: var(--lily-deep);
+  --color-water: var(--water);
+  --color-water-deep: var(--water-deep);
+  --color-mist: var(--mist);
   --color-lake: var(--lake);
   --color-mint: var(--mint);
   --color-blush: var(--blush);
@@ -29,14 +61,20 @@
   --color-coral: var(--coral);
 
   --font-sans: var(--font-nunito), ui-rounded, system-ui, sans-serif;
+  --font-display: var(--font-fraunces), ui-serif, Georgia, serif;
+  --font-hand: var(--font-caveat), "Segoe Print", cursive;
 
   --radius-card: 28px;
-  --shadow-soft: 0 6px 24px -8px rgb(47 69 105 / 0.18);
-  --shadow-lift: 0 12px 32px -10px rgb(47 69 105 / 0.28);
+  --shadow-soft: 0 10px 30px -14px rgb(28 36 70 / 0.28);
+  --shadow-lift: 0 18px 40px -16px rgb(28 36 70 / 0.38);
+  --shadow-glow: 0 0 0 1px rgb(255 255 255 / 0.6), 0 12px 36px -12px rgb(255 201 107 / 0.55);
+
+  --ease-spring: cubic-bezier(0.34, 1.56, 0.64, 1);
+  --ease-settle: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
 html {
-  background: #e9f4fb; /* fallback behind the sky layers */
+  background: #1b2547; /* fallback behind the sky layers */
 }
 
 body {
@@ -45,266 +83,534 @@ body {
   -webkit-font-smoothing: antialiased;
 }
 
-/* Keyboard focus: a two-tone ring (white inside, navy outside) that is visible on every
-   background, from the pale day sky to the deep night sky. */
+.font-display {
+  font-family: var(--font-fraunces), ui-serif, Georgia, serif;
+  font-variation-settings: "SOFT" 100, "WONK" 0;
+  letter-spacing: -0.01em;
+}
+.font-hand { font-family: var(--font-caveat), "Segoe Print", cursive; }
+
+/* Keyboard focus: white inside, ink outside, visible on every sky. */
 :focus-visible {
   outline: none !important;
-  box-shadow: 0 0 0 2px #fff, 0 0 0 5px #2f4569 !important;
+  box-shadow: 0 0 0 2px #fff, 0 0 0 5px var(--ink) !important;
 }
+
+::selection { background: var(--lotl-soft); color: var(--ink); }
 
 /* ------------------------------------------------------------------
-   Living sky. The phase is written to <html data-phase="..."> by
-   SkyProvider (from the device clock, or the preview switcher).
+   Surfaces
    ------------------------------------------------------------------ */
 
-html[data-phase="dawn"] {
-  --on-sky: #3d3f66;
-  --blob-1: #ffc9b5;
-  --blob-2: #f7b6cf;
-  --blob-3: #ffe2b8;
+/* A floating sheet of warm paper: the one card style. */
+.paper {
+  background: linear-gradient(180deg, #fffdf9 0%, var(--paper) 100%);
+  border: 1px solid rgb(255 255 255 / 0.85);
+  border-radius: var(--radius-card);
+  box-shadow: var(--shadow-soft);
+  color: var(--ink);
 }
-html[data-phase="day"] {
-  --on-sky: #2f4569;
-  --blob-1: #a9d8f2;
-  --blob-2: #bfe8c8;
-  --blob-3: #d7e8ff;
+/* Frosted glass for things that sit on the sky (status lines, chips). */
+.glass {
+  background: rgb(255 255 255 / 0.62);
+  border: 1px solid rgb(255 255 255 / 0.7);
+  backdrop-filter: blur(14px) saturate(1.2);
+  -webkit-backdrop-filter: blur(14px) saturate(1.2);
+  color: var(--ink);
 }
-html[data-phase="golden"] {
-  --on-sky: #5a3f3a;
-  --blob-1: #ffd88a;
-  --blob-2: #ffb98a;
-  --blob-3: #ffe9a8;
-}
-html[data-phase="dusk"] {
-  --on-sky: #3a3365;
-  --blob-1: #b7a6ef;
-  --blob-2: #f2a9c4;
-  --blob-3: #ffc7a8;
-}
-html[data-phase="night"] {
-  --on-sky: #eaf0ff;
-  --blob-1: #3f4f9a;
-  --blob-2: #6a5aa8;
-  --blob-3: #2a7fa0;
+html[data-phase="night"] .glass,
+html[data-phase="dusk"] .glass {
+  background: rgb(255 255 255 / 0.16);
+  border-color: rgb(255 255 255 / 0.22);
+  color: #f4f1ff;
 }
 
-.sky-root {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  overflow: hidden;
-  pointer-events: none;
+/* One interaction vocabulary: lift on hover, press on click, spring back. */
+.lift {
+  transition: transform 0.35s var(--ease-spring), box-shadow 0.35s var(--ease-settle), background-color 0.2s;
 }
+.lift:hover { transform: translateY(-2px); box-shadow: var(--shadow-lift); }
+.lift:active { transform: translateY(0) scale(0.97); transition-duration: 0.12s; }
+.press { transition: transform 0.3s var(--ease-spring); }
+.press:active { transform: scale(0.94); transition-duration: 0.1s; }
 
-.sky-grad {
-  position: absolute;
-  inset: 0;
-  opacity: 0;
-  transition: opacity 2.5s ease;
-}
-.sky-grad-dawn { background: linear-gradient(180deg, #fde8dc 0%, #fbd5d9 55%, #f1e4f6 100%); }
-.sky-grad-day { background: linear-gradient(180deg, #d6ecfa 0%, #e9f6f1 60%, #f4faf1 100%); }
-.sky-grad-golden { background: linear-gradient(180deg, #fff1d0 0%, #fde0b0 55%, #fbd9c6 100%); }
-.sky-grad-dusk { background: linear-gradient(180deg, #c9bff0 0%, #efc4dc 60%, #fbd8cf 100%); }
-.sky-grad-night { background: linear-gradient(180deg, #1c2750 0%, #2b3768 55%, #4a4f86 100%); }
+/* ------------------------------------------------------------------
+   Living sky. <html data-phase> is set by SkyProvider from the real sun
+   times for the person's city (or the device clock until those arrive).
+   <html data-weather> is the calm version of the real weather.
+   ------------------------------------------------------------------ */
 
-html[data-phase="dawn"] .sky-grad-dawn,
-html[data-phase="day"] .sky-grad-day,
-html[data-phase="golden"] .sky-grad-golden,
-html[data-phase="dusk"] .sky-grad-dusk,
-html[data-phase="night"] .sky-grad-night {
-  opacity: 1;
-}
+/* Lighter, pastel skies for dawn, day and golden hour; a softer, more colourful night.
+   --pond-*, --hill-* and --reed colour the water and banks so the pond changes with the sky. */
+html[data-phase="dawn"]   { --on-sky: #3b3560; --on-sky-soft: rgb(59 53 96 / 0.8); --blob-1: #ffd0bd; --blob-2: #fbc2d6; --blob-3: #ffeac0; --blob-4: #e7d7ff;
+  --pond-top: #a9dde8; --pond-deep: #72b6cb; --hill-far: #cfe9c9; --hill-near: #aedbb4; --reed: #7cb98c; }
+html[data-phase="day"]    { --on-sky: #243052; --on-sky-soft: rgb(36 48 82 / 0.78); --blob-1: #b3e0f7; --blob-2: #c8f0d2; --blob-3: #e2efff; --blob-4: #ffe3ee;
+  --pond-top: #9ee0ee; --pond-deep: #55aecb; --hill-far: #c4e9c7; --hill-near: #a2d9ad; --reed: #6fb27f; }
+html[data-phase="golden"] { --on-sky: #4f3330; --on-sky-soft: rgb(79 51 48 / 0.8); --blob-1: #ffdc99; --blob-2: #ffc1a0; --blob-3: #fff0b8; --blob-4: #ffd1e0;
+  --pond-top: #bcdcd4; --pond-deep: #74abb6; --hill-far: #e8dc9f; --hill-near: #cbdb97; --reed: #9bb86f; }
+html[data-phase="dusk"]   { --on-sky: #fff6f2; --on-sky-soft: rgb(255 246 242 / 0.86); --blob-1: #9384d8; --blob-2: #f0a3c2; --blob-3: #ffbb9e; --blob-4: #a8c1ff;
+  --pond-top: #918acb; --pond-deep: #5d62a8; --hill-far: #8273ae; --hill-near: #7084ab; --reed: #627f93; }
+html[data-phase="night"]  { --on-sky: #f2f0ff; --on-sky-soft: rgb(242 240 255 / 0.8); --blob-1: #3d55a8; --blob-2: #6a59b8; --blob-3: #2a8bab; --blob-4: #8a6fd1;
+  --pond-top: #4173a6; --pond-deep: #27417a; --hill-far: #2f3f78; --hill-near: #324e7c; --reed: #3d6d78; }
 
-.sky-blob {
-  position: absolute;
-  border-radius: 9999px;
-  filter: blur(70px);
-  opacity: 0.75;
-  transition: background-color 2.5s ease;
-  will-change: transform;
-}
-.sky-blob-1 { background-color: var(--blob-1); width: 60vmax; height: 60vmax; left: -20vmax; top: -15vmax; animation: blob-drift-a 34s ease-in-out infinite alternate; }
-.sky-blob-2 { background-color: var(--blob-2); width: 50vmax; height: 50vmax; right: -18vmax; top: 10vh; animation: blob-drift-b 42s ease-in-out infinite alternate; }
-.sky-blob-3 { background-color: var(--blob-3); width: 55vmax; height: 55vmax; left: 15vw; bottom: -30vmax; animation: blob-drift-c 38s ease-in-out infinite alternate; }
+.sky-root { position: fixed; inset: 0; z-index: -1; overflow: hidden; pointer-events: none; }
+.sky-grad { position: absolute; inset: 0; opacity: 0; transition: opacity 3s ease; }
+.sky-grad-dawn   { background: linear-gradient(180deg, #fbe0e6 0%, #fddcd0 45%, #fff2e0 100%); }
+.sky-grad-day    { background: linear-gradient(180deg, #c9e9fc 0%, #e6f6fd 55%, #f6fcf4 100%); }
+.sky-grad-golden { background: linear-gradient(180deg, #ffecbf 0%, #ffd9ae 50%, #fcc8bb 100%); }
+.sky-grad-dusk   { background: linear-gradient(180deg, #4c4892 0%, #9a74b2 50%, #eea89d 100%); }
+.sky-grad-night  { background: radial-gradient(120% 70% at 70% 0%, #3a4a92 0%, transparent 60%), radial-gradient(80% 50% at 10% 100%, #3b3a8a 0%, transparent 70%), linear-gradient(180deg, #1a2452 0%, #26336d 50%, #33468c 100%); }
+html[data-phase="dawn"] .sky-grad-dawn, html[data-phase="day"] .sky-grad-day, html[data-phase="golden"] .sky-grad-golden,
+html[data-phase="dusk"] .sky-grad-dusk, html[data-phase="night"] .sky-grad-night { opacity: 1; }
 
+/* the blobs drift on their own, and slide a little as you scroll (--sky-scroll, set in Sky.tsx) */
+.sky-drift { position: absolute; inset: 0; transform: translate3d(0, calc(var(--sky-scroll, 0) * -0.06px), 0); }
+.sky-blob { position: absolute; border-radius: 9999px; filter: blur(80px); opacity: 0.7; transition: background-color 3s ease; will-change: transform; }
+.sky-blob-1 { background-color: var(--blob-1); width: 60vmax; height: 60vmax; left: -22vmax; top: -18vmax; animation: blob-drift-a 38s ease-in-out infinite alternate; }
+.sky-blob-2 { background-color: var(--blob-2); width: 48vmax; height: 48vmax; right: -18vmax; top: 12vh; animation: blob-drift-b 46s ease-in-out infinite alternate; }
+.sky-blob-3 { background-color: var(--blob-3); width: 55vmax; height: 55vmax; left: 12vw; bottom: -32vmax; animation: blob-drift-c 42s ease-in-out infinite alternate; }
+.sky-blob-4 { background-color: var(--blob-4); width: 36vmax; height: 36vmax; left: 38vw; top: 30vh; opacity: 0.5; animation: blob-drift-d 52s ease-in-out infinite alternate; }
+html[data-phase="night"] .sky-blob { opacity: 0.42; }
+@keyframes blob-drift-d { to { transform: translate(-18vw, -12vh) scale(1.25); } }
 @keyframes blob-drift-a { to { transform: translate(14vw, 10vh) scale(1.12); } }
 @keyframes blob-drift-b { to { transform: translate(-12vw, 14vh) scale(0.92); } }
 @keyframes blob-drift-c { to { transform: translate(-10vw, -10vh) scale(1.1); } }
 
-/* clouds (visible in daylight phases only) */
+/* sun glow (day phases) */
+.sky-sun {
+  position: absolute; width: 180px; height: 180px; border-radius: 9999px; right: 8vw; top: 6vh;
+  background: radial-gradient(circle, rgb(255 246 214 / 0.95) 0%, rgb(255 228 160 / 0.45) 35%, transparent 70%);
+  opacity: 0; transition: opacity 3s ease, transform 3s ease;
+}
+html[data-phase="day"] .sky-sun { opacity: 0.8; }
+html[data-phase="dawn"] .sky-sun { opacity: 0.9; transform: translate(-30vw, 30vh) scale(1.3); }
+html[data-phase="golden"] .sky-sun { opacity: 1; transform: translate(-10vw, 22vh) scale(1.6); }
+
+/* clouds */
 .sky-cloud {
-  position: absolute;
-  height: 54px;
-  width: 170px;
-  border-radius: 9999px;
-  background: rgb(255 255 255 / 0.8);
-  filter: blur(1px);
-  opacity: 0;
-  transition: opacity 2.5s ease;
-  animation: cloud-drift linear infinite;
+  position: absolute; height: 46px; width: 160px; border-radius: 9999px; background: rgb(255 255 255 / 0.85);
+  opacity: 0; transition: opacity 3s ease; animation: cloud-drift linear infinite;
 }
-.sky-cloud::before,
-.sky-cloud::after {
-  content: "";
-  position: absolute;
-  border-radius: 9999px;
-  background: inherit;
-}
-.sky-cloud::before { width: 84px; height: 84px; left: 24px; top: -40px; }
-.sky-cloud::after { width: 64px; height: 64px; right: 28px; top: -26px; }
-.sky-cloud-1 { top: 14vh; animation-duration: 120s; animation-delay: -30s; }
-.sky-cloud-2 { top: 34vh; transform: scale(0.7); animation-duration: 160s; animation-delay: -90s; }
-.sky-cloud-3 { top: 8vh; transform: scale(0.5); animation-duration: 200s; animation-delay: -60s; }
+.sky-cloud::before, .sky-cloud::after { content: ""; position: absolute; border-radius: 9999px; background: inherit; }
+.sky-cloud::before { width: 76px; height: 76px; left: 22px; top: -36px; }
+.sky-cloud::after { width: 58px; height: 58px; right: 26px; top: -24px; }
+.sky-cloud-1 { top: 13vh; animation-duration: 130s; animation-delay: -30s; }
+.sky-cloud-2 { top: 30vh; scale: 0.7; animation-duration: 170s; animation-delay: -95s; }
+.sky-cloud-3 { top: 7vh; scale: 0.5; animation-duration: 210s; animation-delay: -60s; }
+html[data-phase="dawn"] .sky-cloud { opacity: 0.55; }
+html[data-phase="day"] .sky-cloud { opacity: 0.9; }
+html[data-phase="golden"] .sky-cloud { opacity: 0.6; background: rgb(255 240 225 / 0.85); }
+html[data-phase="dusk"] .sky-cloud { opacity: 0.18; }
+html[data-weather="cloudy"][data-phase="day"] .sky-cloud,
+html[data-weather="rain"][data-phase="day"] .sky-cloud { opacity: 1; background: rgb(240 244 250 / 0.95); }
+@keyframes cloud-drift { from { translate: -260px 0; } to { translate: calc(100vw + 260px) 0; } }
 
-html[data-phase="dawn"] .sky-cloud { opacity: 0.5; }
-html[data-phase="day"] .sky-cloud { opacity: 0.85; }
-html[data-phase="golden"] .sky-cloud { opacity: 0.6; }
-html[data-phase="dusk"] .sky-cloud { opacity: 0.22; }
-
-@keyframes cloud-drift {
-  from { translate: -260px 0; }
-  to { translate: calc(100vw + 260px) 0; }
-}
-
-/* stars + moon */
-.sky-stars,
-.sky-moon {
-  position: absolute;
-  opacity: 0;
-  transition: opacity 3s ease;
-}
+/* stars, moon, fireflies */
+.sky-stars, .sky-moon, .sky-fireflies { position: absolute; opacity: 0; transition: opacity 3s ease; }
 .sky-stars { inset: 0; }
-.sky-star {
-  position: absolute;
-  border-radius: 9999px;
-  background: #fff;
-  animation: twinkle 4s ease-in-out infinite;
-}
+.sky-star { position: absolute; border-radius: 9999px; background: #fff; box-shadow: 0 0 6px rgb(255 255 255 / 0.8); animation: twinkle 5s ease-in-out infinite; }
 html[data-phase="night"] .sky-stars { opacity: 1; }
 html[data-phase="dusk"] .sky-stars { opacity: 1; }
 html[data-phase="dusk"] .sky-star:not(.sky-star-first) { opacity: 0 !important; animation: none; }
-.sky-moon {
-  top: 9vh;
-  right: 12vw;
-  width: 54px;
-  height: 54px;
-  border-radius: 9999px;
-  box-shadow: -15px 7px 0 0 #fdf6e3;
-  filter: drop-shadow(0 0 14px rgb(253 246 227 / 0.55));
-}
+html[data-weather="cloudy"] .sky-stars, html[data-weather="rain"] .sky-stars, html[data-weather="mist"] .sky-stars { opacity: 0.35; }
+@keyframes twinkle { 0%, 100% { opacity: 0.25; transform: scale(0.8); } 50% { opacity: 1; transform: scale(1.15); } }
+
+.sky-moon { top: 8vh; right: 11vw; width: 64px; height: 64px; filter: drop-shadow(0 0 18px rgb(255 244 214 / 0.6)); }
+@media (max-width: 640px) { .sky-moon { top: 2.6rem; right: 5.5rem; width: 40px; height: 40px; } }
 html[data-phase="night"] .sky-moon { opacity: 1; }
+html[data-phase="dusk"] .sky-moon { opacity: 0.55; }
 
-@keyframes twinkle {
-  0%, 100% { opacity: 0.25; transform: scale(0.8); }
-  50% { opacity: 1; transform: scale(1.15); }
+.sky-shooting {
+  position: absolute; top: 14vh; left: 20vw; width: 120px; height: 2px; border-radius: 2px; opacity: 0;
+  background: linear-gradient(90deg, transparent, #fff);
+  transform: rotate(-18deg);
+  animation: shooting 23s ease-in infinite; animation-delay: 9s;
+}
+html:not([data-phase="night"]) .sky-shooting { display: none; }
+@keyframes shooting {
+  0%, 96% { opacity: 0; translate: 0 0; }
+  97% { opacity: 1; }
+  100% { opacity: 0; translate: 260px 85px; }
 }
 
-/* ------------------------------------------------------------------
-   Page-level motion helpers
-   ------------------------------------------------------------------ */
-
-.fade-up {
-  animation: fade-up 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
-  animation-delay: var(--delay, 0ms);
+.sky-fireflies { inset: 0; }
+html[data-phase="night"] .sky-fireflies, html[data-phase="dusk"] .sky-fireflies { opacity: 1; }
+.firefly {
+  position: absolute; width: 5px; height: 5px; border-radius: 9999px; background: #fff3c4;
+  box-shadow: 0 0 10px 3px rgb(255 214 120 / 0.7);
+  animation: firefly-wander var(--dur, 14s) ease-in-out infinite alternate, firefly-glow 3.2s ease-in-out infinite;
+  animation-delay: var(--d, 0s), var(--d, 0s);
 }
-@keyframes fade-up {
-  from { opacity: 0; transform: translateY(14px); }
-  to { opacity: 1; transform: translateY(0); }
+@keyframes firefly-wander {
+  0% { transform: translate(0, 0); }
+  33% { transform: translate(28px, -22px); }
+  66% { transform: translate(-18px, -40px); }
+  100% { transform: translate(14px, -8px); }
 }
+@keyframes firefly-glow { 0%, 100% { opacity: 0.25; } 50% { opacity: 1; } }
 
-.pop-in {
-  animation: pop-in 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) both;
-  animation-delay: var(--delay, 0ms);
-}
-@keyframes pop-in {
-  from { opacity: 0; transform: scale(0.85); }
-  to { opacity: 1; transform: scale(1); }
-}
+/* ---------- calm weather: always the gentle version ---------- */
+.wx { position: absolute; inset: 0; opacity: 0; transition: opacity 2.5s ease; }
 
-/* soft breathing glow for the Help button and other calm highlights */
-.breathe-glow { animation: breathe-glow 6s ease-in-out infinite; }
-@keyframes breathe-glow {
-  0%, 100% { box-shadow: 0 6px 24px -8px rgb(47 69 105 / 0.18), 0 0 0 0 rgb(220 207 246 / 0); }
-  50% { box-shadow: 0 6px 24px -8px rgb(47 69 105 / 0.18), 0 0 0 8px rgb(220 207 246 / 0.45); }
-}
-
-/* ------------------------------------------------------------------
-   Axolotl animation parts (see components/axolotl/Axolotl.tsx)
-   ------------------------------------------------------------------ */
-
-.axo-float { animation: axo-float 5s ease-in-out infinite; }
-@keyframes axo-float {
-  0%, 100% { transform: translateY(0) rotate(0deg); }
-  50% { transform: translateY(-7px) rotate(-1.2deg); }
-}
-
-.axo-rest { animation: axo-rest 6s ease-in-out infinite; transform-origin: 50% 90%; transform-box: fill-box; }
-@keyframes axo-rest {
-  0%, 100% { transform: scale(1, 1); }
-  50% { transform: scale(1.015, 1.035); }
-}
-
-.axo-tail { transform-box: fill-box; transform-origin: 100% 50%; animation: axo-tail 2.6s ease-in-out infinite; }
-@keyframes axo-tail {
-  0%, 100% { transform: rotate(-5deg); }
-  50% { transform: rotate(6deg); }
-}
-
-.axo-gill {
-  transform-box: fill-box;
-  transform-origin: 0% 50%;
-  animation: axo-gill 3.2s ease-in-out infinite;
+/* rain on a window: slow drops sliding down glass, never a storm */
+html[data-weather="rain"] .wx-rain { opacity: 1; }
+.wx-rain { backdrop-filter: blur(0.5px); }
+.raindrop {
+  position: absolute; top: -8%; width: 7px; height: 10px; border-radius: 50% 50% 50% 50% / 60% 60% 40% 40%;
+  background: radial-gradient(circle at 35% 35%, rgb(255 255 255 / 0.9), rgb(200 225 245 / 0.35) 60%, transparent 70%);
+  box-shadow: 0 1px 2px rgb(30 50 90 / 0.15);
+  animation: drop-slide var(--dur, 9s) cubic-bezier(0.5, 0, 0.7, 1) infinite;
   animation-delay: var(--d, 0s);
 }
-@keyframes axo-gill {
-  0%, 100% { transform: rotate(-7deg); }
-  50% { transform: rotate(8deg); }
+.raindrop::after { /* the faint trail a drop leaves on glass */
+  content: ""; position: absolute; left: 2.5px; bottom: 9px; width: 2px; height: 60px;
+  background: linear-gradient(transparent, rgb(255 255 255 / 0.28));
+  border-radius: 2px;
+}
+@keyframes drop-slide {
+  0% { transform: translate(0, 0); opacity: 0; }
+  8% { opacity: 1; }
+  45% { transform: translate(2px, 45vh); }
+  55% { transform: translate(1px, 52vh); }
+  100% { transform: translate(4px, 112vh); opacity: 0.9; }
 }
 
-.axo-leg { transform-box: fill-box; transform-origin: 20% 20%; animation: axo-leg 2.4s ease-in-out infinite; animation-delay: var(--d, 0s); }
-@keyframes axo-leg {
-  0%, 100% { transform: rotate(-10deg); }
-  50% { transform: rotate(14deg); }
+/* snow: big, slow flakes */
+html[data-weather="snow"] .wx-snow { opacity: 1; }
+.snowflake {
+  position: absolute; top: -5%; width: var(--s, 8px); height: var(--s, 8px); border-radius: 9999px;
+  background: #fff; opacity: 0.9; filter: blur(0.6px);
+  animation: snow-fall var(--dur, 16s) linear infinite; animation-delay: var(--d, 0s);
+}
+@keyframes snow-fall {
+  0% { transform: translate(0, 0); }
+  25% { transform: translate(18px, 28vh); }
+  50% { transform: translate(-10px, 55vh); }
+  75% { transform: translate(14px, 82vh); }
+  100% { transform: translate(0, 110vh); }
 }
 
-.axo-bubble { animation: axo-bubble 4.5s ease-in infinite; animation-delay: var(--d, 0s); opacity: 0; transform-box: fill-box; }
-@keyframes axo-bubble {
-  0% { opacity: 0; transform: translate(0, 0) scale(0.6); }
-  15% { opacity: 0.9; }
-  100% { opacity: 0; transform: translate(10px, -46px) scale(1.1); }
+/* deep cold: frost at the window edges, warm lamp light inside */
+html[data-weather="frost"] .wx-frost { opacity: 1; }
+.wx-frost {
+  background:
+    radial-gradient(60% 45% at 18% 100%, rgb(255 196 120 / 0.28), transparent 70%),
+    radial-gradient(140% 120% at 50% 50%, transparent 55%, rgb(235 245 255 / 0.55) 80%, rgb(255 255 255 / 0.85) 100%);
 }
 
-.axo-blink { transform-box: fill-box; transform-origin: 50% 50%; animation: axo-blink 6s ease-in-out infinite; }
-@keyframes axo-blink {
-  0%, 92%, 100% { transform: scaleY(1); }
-  96% { transform: scaleY(0.2); }
+/* fog or smoke: soft golden haze */
+html[data-weather="mist"] .wx-mist { opacity: 1; }
+.wx-mist {
+  background: linear-gradient(180deg, transparent 20%, rgb(255 236 200 / 0.35) 60%, rgb(255 244 228 / 0.55) 100%);
+  animation: mist-breathe 18s ease-in-out infinite alternate;
+}
+@keyframes mist-breathe { from { opacity: 0.75; } to { opacity: 1; } }
+
+/* wind or hail: grass gently swaying at the bottom */
+html[data-weather="breeze"] .wx-breeze { opacity: 1; }
+.grass-blade { transform-origin: 50% 100%; transform-box: fill-box; animation: sway 4.5s ease-in-out infinite alternate; animation-delay: var(--d, 0s); }
+@keyframes sway { from { transform: rotate(-6deg); } to { transform: rotate(7deg); } }
+
+/* ------------------------------------------------------------------
+   Motion vocabulary
+   ------------------------------------------------------------------ */
+
+.enter { animation: enter 0.9s var(--ease-settle) both; animation-delay: var(--delay, 0ms); }
+@keyframes enter { from { opacity: 0; transform: translateY(18px) scale(0.98); } to { opacity: 1; transform: none; } }
+.fade-up { animation: enter 0.9s var(--ease-settle) both; animation-delay: var(--delay, 0ms); }
+
+.pop-in { animation: pop-in 0.6s var(--ease-spring) both; animation-delay: var(--delay, 0ms); }
+@keyframes pop-in { from { opacity: 0; transform: scale(0.8); } to { opacity: 1; transform: scale(1); } }
+
+.bob { animation: bob 5s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes bob { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-6px); } }
+
+.drift { animation: drift 9s ease-in-out infinite alternate; animation-delay: var(--d, 0s); }
+@keyframes drift { from { transform: translate(-4px, 2px) rotate(-2deg); } to { transform: translate(5px, -3px) rotate(2deg); } }
+
+.wiggle { animation: wiggle 0.8s var(--ease-spring); }
+@keyframes wiggle { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-6deg); } 60% { transform: rotate(5deg); } }
+
+.ripple-ring { animation: ripple 3.6s ease-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: center; }
+@keyframes ripple { 0% { transform: scale(0.3); opacity: 0.8; } 100% { transform: scale(1.6); opacity: 0; } }
+
+.glow-pulse { animation: glow-pulse 3.4s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: center; }
+@keyframes glow-pulse { 0%, 100% { opacity: 0.55; transform: scale(0.92); } 50% { opacity: 1; transform: scale(1.05); } }
+
+/* the help button's slow, calm heartbeat */
+.breathe-glow { animation: breathe-glow 6s ease-in-out infinite; }
+@keyframes breathe-glow {
+  0%, 100% { box-shadow: var(--shadow-soft), 0 0 0 0 rgb(255 201 107 / 0); }
+  50% { box-shadow: var(--shadow-soft), 0 0 0 7px rgb(255 201 107 / 0.35); }
 }
 
-/* a swimming lane: the axolotl drifts left to right across its container */
-.axo-swim { animation: axo-swim 36s linear infinite; }
-@keyframes axo-swim {
-  from { translate: -30% 0; }
-  to { translate: 110vw 0; }
-}
+/* bottom sheet (crisis card, composers) */
+.sheet[open] { animation: sheet-up 0.55s var(--ease-settle); }
+@keyframes sheet-up { from { transform: translateY(40px); opacity: 0; } to { transform: none; opacity: 1; } }
+.sheet::backdrop { background: rgb(20 26 54 / 0.42); backdrop-filter: blur(6px); }
 
-/* gentle sparkle used around the logo */
-.sparkle { animation: sparkle 3.6s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: center; }
-@keyframes sparkle {
-  0%, 100% { opacity: 0.35; transform: scale(0.75) rotate(0deg); }
-  50% { opacity: 1; transform: scale(1.1) rotate(20deg); }
+/* confetti-like bubbles for small celebrations */
+.cele-bubble {
+  position: absolute; bottom: 0; width: var(--s, 12px); height: var(--s, 12px); border-radius: 9999px;
+  border: 2px solid rgb(255 255 255 / 0.9); background: radial-gradient(circle at 30% 30%, #fff, var(--c, var(--lotl)) 70%);
+  animation: cele-rise 1.8s var(--ease-settle) forwards; animation-delay: var(--d, 0s); opacity: 0;
+}
+@keyframes cele-rise {
+  0% { opacity: 0; transform: translate(0, 0) scale(0.4); }
+  15% { opacity: 1; }
+  100% { opacity: 0; transform: translate(var(--x, 0px), -160px) scale(1); }
 }
 
 /* ------------------------------------------------------------------
-   Reduced motion: everything holds still.
+   Lotl (components/lotl). Front-facing mascot with moods.
+   ------------------------------------------------------------------ */
+
+.lotl { overflow: visible; }
+.lotl .l-float { animation: l-float 5s ease-in-out infinite; transform-box: fill-box; transform-origin: 50% 100%; }
+@keyframes l-float { 0%, 100% { transform: translateY(0) rotate(0); } 50% { transform: translateY(-5px) rotate(-1.5deg); } }
+.lotl .l-tail { transform-box: fill-box; transform-origin: 0% 30%; animation: l-tail 2.8s ease-in-out infinite; }
+@keyframes l-tail { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(9deg); } }
+.lotl .l-gill { transform-box: fill-box; animation: l-gill 3.4s ease-in-out infinite; animation-delay: var(--d, 0s); }
+.lotl .l-gill-l { transform-origin: 100% 50%; }
+.lotl .l-gill-r { transform-origin: 0% 50%; }
+@keyframes l-gill { 0%, 100% { rotate: -5deg; } 50% { rotate: 6deg; } }
+.lotl .l-eyes { transform-box: fill-box; transform-origin: 50% 50%; animation: l-blink 5.5s ease-in-out infinite; }
+@keyframes l-blink { 0%, 93%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.12); } }
+.lotl .l-arm-r { transform-box: fill-box; transform-origin: 20% 15%; }
+.lotl[data-mood="wave"] .l-arm-r { animation: l-wave 1.1s ease-in-out 3; }
+@keyframes l-wave { 0%, 100% { transform: rotate(0); } 30% { transform: rotate(-70deg); } 60% { transform: rotate(-40deg); } 80% { transform: rotate(-70deg); } }
+.lotl[data-mood="happy"] .l-float { animation: l-hop 0.9s var(--ease-spring) 2, l-float 5s ease-in-out 1.8s infinite; }
+@keyframes l-hop { 0%, 100% { transform: translateY(0) scale(1, 1); } 30% { transform: translateY(2px) scale(1.05, 0.94); } 55% { transform: translateY(-14px) scale(0.96, 1.05); } }
+.lotl[data-mood="sleep"] .l-float { animation: l-snooze 7s ease-in-out infinite; }
+@keyframes l-snooze { 0%, 100% { transform: scale(1, 1); } 50% { transform: scale(1.02, 1.04); } }
+.lotl .l-zzz { animation: l-zzz 4s ease-in infinite; animation-delay: var(--d, 0s); opacity: 0; }
+@keyframes l-zzz { 0% { opacity: 0; transform: translate(0, 0) scale(0.6); } 20% { opacity: 0.9; } 100% { opacity: 0; transform: translate(14px, -38px) scale(1.1); } }
+.lotl .l-sparkle { transform-box: fill-box; transform-origin: center; animation: sparkle 1.6s ease-in-out infinite; animation-delay: var(--d, 0s); }
+.lotl .l-bubble { animation: l-bubble 4.6s ease-in infinite; animation-delay: var(--d, 0s); opacity: 0; transform-box: fill-box; }
+@keyframes l-bubble { 0% { opacity: 0; transform: translate(0, 0) scale(0.5); } 15% { opacity: 0.9; } 100% { opacity: 0; transform: translate(-8px, -54px) scale(1.15); } }
+
+/* gill glow: --glow (0..1) is driven by the breathing exercise */
+.lotl .l-gill path { transition: filter 0.6s ease; }
+.lotl[data-glow="on"] .l-gill { scale: calc(1 + var(--glow, 0) * 0.14); }
+.lotl[data-glow="on"] .l-gill path { filter: drop-shadow(0 0 calc(2px + var(--glow, 0) * 9px) rgb(255 150 175 / calc(0.35 + var(--glow, 0) * 0.65))); }
+
+/* side-view swimmer (components/lotl/LotlSwimmer) */
+.axo-float { animation: axo-float 5s ease-in-out infinite; }
+@keyframes axo-float { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-6px) rotate(-1.5deg); } }
+.axo-tail { transform-box: fill-box; transform-origin: 100% 50%; animation: axo-tail 2.4s ease-in-out infinite; }
+@keyframes axo-tail { 0%, 100% { transform: rotate(-6deg); } 50% { transform: rotate(7deg); } }
+.axo-gill { transform-box: fill-box; transform-origin: 0% 50%; animation: axo-gill 3.2s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes axo-gill { 0%, 100% { transform: rotate(-7deg); } 50% { transform: rotate(8deg); } }
+.axo-leg { transform-box: fill-box; transform-origin: 20% 20%; animation: axo-leg 2.2s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes axo-leg { 0%, 100% { transform: rotate(-10deg); } 50% { transform: rotate(14deg); } }
+.axo-bubble { animation: axo-bubble 4.5s ease-in infinite; animation-delay: var(--d, 0s); opacity: 0; transform-box: fill-box; }
+@keyframes axo-bubble { 0% { opacity: 0; transform: translate(0, 0) scale(0.6); } 15% { opacity: 0.9; } 100% { opacity: 0; transform: translate(10px, -46px) scale(1.1); } }
+.axo-blink { transform-box: fill-box; transform-origin: 50% 50%; animation: axo-blink 6s ease-in-out infinite; }
+@keyframes axo-blink { 0%, 92%, 100% { transform: scaleY(1); } 96% { transform: scaleY(0.2); } }
+
+/* swims back and forth across its lane, turning around at each end */
+.swim-lane { position: relative; overflow: hidden; }
+.swim-lane .swimmer { position: absolute; animation: swim-across var(--swim, 28s) ease-in-out infinite; }
+.swim-lane .swimmer > * { animation: swim-turn var(--swim, 28s) steps(1) infinite; }
+@keyframes swim-across { 0% { left: -8%; } 48% { left: calc(100% - var(--w, 120px)); } 52% { left: calc(100% - var(--w, 120px)); } 100% { left: -8%; } }
+@keyframes swim-turn { 0% { transform: scaleX(1); } 50% { transform: scaleX(-1); } }
+.axo-swim { animation: axo-swim 36s linear infinite; }
+@keyframes axo-swim { from { translate: -30% 0; } to { translate: 110vw 0; } }
+
+/* Lotl carrying a note across the screen */
+.carry-across { animation: carry-across 3.2s cubic-bezier(0.45, 0, 0.3, 1) forwards; }
+@keyframes carry-across {
+  0% { transform: translate(-40vw, 20px); }
+  25% { transform: translate(-10vw, -12px); }
+  50% { transform: translate(10vw, 8px); }
+  75% { transform: translate(30vw, -10px); }
+  100% { transform: translate(70vw, 0); }
+}
+
+.sparkle { animation: sparkle 3.6s ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: center; }
+@keyframes sparkle { 0%, 100% { opacity: 0.35; transform: scale(0.75) rotate(0deg); } 50% { opacity: 1; transform: scale(1.1) rotate(20deg); } }
+
+/* ------------------------------------------------------------------
+   Pond scene + comfort jar
+   ------------------------------------------------------------------ */
+.pond-water { animation: water-shift 12s ease-in-out infinite alternate; }
+@keyframes water-shift { from { transform: translateX(0); } to { transform: translateX(-24px); } }
+.lily-pad { transform-box: fill-box; transform-origin: center; animation: pad-bob 7s ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes pad-bob { 0%, 100% { transform: translateY(0) rotate(0deg); } 50% { transform: translateY(-1.5px) rotate(2deg); } }
+.grow-in { transform-box: fill-box; transform-origin: 50% 100%; animation: grow-in 1.4s var(--ease-spring) both; animation-delay: var(--d, 0s); }
+@keyframes grow-in { from { transform: scale(0); opacity: 0; } to { transform: scale(1); opacity: 1; } }
+.fish { animation: fish-swim var(--dur, 16s) ease-in-out infinite; animation-delay: var(--d, 0s); }
+@keyframes fish-swim { 0%, 100% { transform: translateX(0) scaleX(1); } 49% { transform: translateX(var(--x, 60px)) scaleX(1); } 50% { transform: translateX(var(--x, 60px)) scaleX(-1); } 99% { transform: translateX(0) scaleX(-1); } }
+
+@keyframes gather {
+  from { transform: translate(var(--fx), var(--fy)) scale(0.4); opacity: 0; }
+  to { transform: translate(var(--tx), var(--ty)) scale(1); opacity: 1; }
+}
+.awake-light {
+  background: radial-gradient(circle at 40% 35%, #fffbe8 0%, #ffe39a 40%, rgb(255 201 107 / 0.15) 72%, transparent 75%);
+  box-shadow: 0 0 22px 6px rgb(255 205 120 / 0.45);
+}
+
+.jar-note { animation: jar-bob var(--dur, 6s) ease-in-out infinite; animation-delay: var(--d, 0s); transform-box: fill-box; transform-origin: center; }
+@keyframes jar-bob { 0%, 100% { transform: translate(0, 0) rotate(var(--r, 0deg)); } 50% { transform: translate(var(--x, 2px), -5px) rotate(calc(var(--r, 0deg) + 6deg)); } }
+.swirl { animation: swirl 1.6s var(--ease-settle) both; animation-delay: var(--d, 0s); }
+@keyframes swirl {
+  from { opacity: 0; transform: translate(0, 120px) rotate(-30deg) scale(0.4); }
+  60% { opacity: 1; }
+  to { opacity: 1; transform: translate(0, 0) rotate(var(--r, 0deg)) scale(1); }
+}
+.float-into-jar { animation: into-jar 1.3s cubic-bezier(0.5, 0, 0.5, 1) forwards; }
+@keyframes into-jar {
+  0% { transform: none; opacity: 1; }
+  40% { transform: translateY(-30px) scale(0.85) rotate(-6deg); }
+  100% { transform: translateY(-60vh) scale(0.15) rotate(20deg); opacity: 0; }
+}
+.unwrap { animation: unwrap 0.9s var(--ease-spring) both; transform-origin: 50% 0%; }
+@keyframes unwrap { from { transform: perspective(600px) rotateX(-85deg); opacity: 0; } to { transform: perspective(600px) rotateX(0); opacity: 1; } }
+
+/* ------------------------------------------------------------------
+   Reduced motion: everything rests, nothing stays hidden.
    ------------------------------------------------------------------ */
 @media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
+  *, *::before, *::after {
     animation: none !important;
     transition-duration: 0.01ms !important;
   }
-  .axo-bubble { opacity: 0; }
+  .axo-bubble, .l-bubble, .l-zzz, .raindrop, .sky-shooting, .cele-bubble { opacity: 0 !important; }
+  .snowflake { top: var(--rest-top, 30%); }
   .sky-cloud { translate: 20vw 0; }
+  .swim-lane .swimmer { left: 30%; }
+  .float-into-jar { opacity: 0; }
 }
+
+/* the SVG Lotl shown while the 3D one loads (components/lotl3d) */
+.lotl3d-svg { height: 100%; width: auto; max-width: 100%; }
+
+/* ==================================================================
+   The signed-in app (.app-shell): immersive, tinted screens.
+   The living sky still follows the real time of day; a deep tint over it
+   keeps every screen rich and readable (white type on every phase).
+   Frosted pills, two-tone headings, one white pill for the main action,
+   a floating tab bar. Scoped to .app-shell: the landing page is untouched.
+   ================================================================== */
+
+.app-tint { position: fixed; inset: 0; z-index: -1; pointer-events: none; transition: background 3s ease; }
+html[data-phase="night"]  .app-tint { background: radial-gradient(120% 70% at 80% 0%, rgb(58 74 150 / .55), transparent 60%), linear-gradient(180deg, rgb(13 19 46 / .82), rgb(20 28 66 / .9)); }
+html[data-phase="dusk"]   .app-tint { background: radial-gradient(120% 70% at 80% 0%, rgb(232 128 140 / .45), transparent 60%), linear-gradient(180deg, rgb(58 30 62 / .78), rgb(36 24 58 / .9)); }
+html[data-phase="golden"] .app-tint { background: radial-gradient(120% 70% at 80% 0%, rgb(255 168 96 / .55), transparent 60%), linear-gradient(180deg, rgb(150 62 34 / .8), rgb(96 38 34 / .9)); }
+html[data-phase="day"]    .app-tint { background: radial-gradient(120% 70% at 80% 0%, rgb(140 214 230 / .45), transparent 60%), linear-gradient(180deg, rgb(18 84 110 / .78), rgb(14 52 80 / .9)); }
+html[data-phase="dawn"]   .app-tint { background: radial-gradient(120% 70% at 80% 0%, rgb(255 176 150 / .55), transparent 60%), linear-gradient(180deg, rgb(132 52 76 / .78), rgb(70 36 66 / .9)); }
+
+.app-shell {
+  --on-sky: #ffffff;
+  --on-sky-soft: rgb(255 255 255 / 0.72);
+  --app-glass: rgb(255 255 255 / 0.1);
+  --app-glass-2: rgb(255 255 255 / 0.16);
+  --app-line: rgb(255 255 255 / 0.14);
+  --app-accent: #ffb3c4;          /* the second tone of a heading */
+  --app-chip-on: #f7a8ba;         /* the chosen chip / tab: Lotl pink, ink text */
+  color: #fff;
+  font-family: var(--font-instrument), system-ui, sans-serif;
+}
+.app-shell .font-display {
+  font-family: var(--font-instrument), system-ui, sans-serif;
+  font-variation-settings: normal;
+  font-weight: 500 !important;
+  letter-spacing: -0.035em;
+  font-stretch: 96%;
+}
+/* headings in two tones: the second phrase lighter, like a softer voice */
+.app-shell .tone { color: var(--app-accent); }
+.app-shell .tone-soft { color: rgb(255 255 255 / 0.62); }
+
+/* frosted glass everywhere on the tinted screens */
+.app-shell .glass,
+html[data-phase] .app-shell .glass {
+  background: var(--app-glass);
+  border: 1px solid var(--app-line);
+  color: #fff;
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+}
+/* cards on the tinted screens turn to glass too (bottom sheets keep their warm paper) */
+.app-shell .paper:not(.sheet) {
+  --ink: #ffffff;
+  --ink-soft: rgb(255 255 255 / 0.72);
+  background: var(--app-glass);
+  border: 1px solid var(--app-line);
+  box-shadow: 0 20px 40px -24px rgb(0 0 0 / 0.45);
+  color: #fff;
+  backdrop-filter: blur(18px) saturate(1.3);
+  -webkit-backdrop-filter: blur(18px) saturate(1.3);
+}
+.app-shell .paper:not(.sheet) :is(input, select, textarea) { --ink: #243052; --ink-soft: #586487; color: #243052; }
+
+/* chips: frosted pills; the chosen one filled */
+.chip {
+  display: inline-flex; align-items: center; gap: 6px; min-height: 40px; padding: 0 16px; border-radius: 999px;
+  background: var(--app-glass); border: 1px solid var(--app-line); color: #fff; font-weight: 500; font-size: 14px;
+  transition: background-color .25s, transform .3s var(--ease-spring);
+}
+.chip:hover { background: var(--app-glass-2); }
+.chip:active { transform: scale(0.95); }
+.chip[aria-pressed="true"], .chip[aria-current="page"], .chip.is-on { background: var(--app-chip-on); border-color: transparent; color: #1b2142; }
+
+/* the round controls (help, back, play) */
+.round {
+  display: inline-grid; place-items: center; width: 48px; height: 48px; border-radius: 999px;
+  background: var(--app-glass); border: 1px solid var(--app-line); color: #fff;
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+  transition: transform .3s var(--ease-spring), background-color .2s;
+}
+.round:hover { background: var(--app-glass-2); }
+.round:active { transform: scale(0.92); }
+.round--white { background: #fff; color: #1b2142; border-color: #fff; box-shadow: 0 16px 36px -14px rgb(0 0 0 / 0.5); }
+.round--white:hover { background: #fff; }
+.round--xl { width: 88px; height: 88px; }
+
+/* big tinted cards (the calm list): soft art, a title, a length, a round play button */
+.scene-card {
+  position: relative; display: flex; flex-direction: column; justify-content: space-between; min-height: 168px;
+  padding: 22px 22px 20px; border-radius: 30px; overflow: hidden; color: #fff; isolation: isolate;
+  box-shadow: 0 24px 40px -28px rgb(0 0 0 / 0.6);
+  transition: transform .4s var(--ease-spring);
+}
+.scene-card:hover { transform: translateY(-2px); }
+.scene-card:active { transform: scale(0.985); }
+.scene-card__art { position: absolute; inset: 0; z-index: -1; }
+.scene-card__title { display: block; margin-bottom: 6px; font-size: 28px; line-height: 1.05; letter-spacing: -0.03em; font-weight: 500; max-width: 12ch; }
+.scene-card .meta { display: block; font-size: 14px; color: rgb(255 255 255 / 0.78); }
+.scene-card .round { position: absolute; right: 18px; bottom: 18px; }
+
+/* the floating tab bar */
+.tabbar {
+  display: flex; justify-content: space-around; gap: 2px; padding: 8px; border-radius: 34px;
+  background: rgb(18 20 40 / 0.42); border: 1px solid var(--app-line);
+  backdrop-filter: blur(22px) saturate(1.4); -webkit-backdrop-filter: blur(22px) saturate(1.4);
+  box-shadow: 0 20px 40px -20px rgb(0 0 0 / 0.55);
+}
+.tabbar a { display: flex; flex: 1; flex-direction: column; align-items: center; gap: 4px; padding: 4px 0 2px; border-radius: 24px; color: rgb(255 255 255 / 0.66); font-size: 12px; font-weight: 500; }
+.tabbar .tab-ico { display: grid; place-items: center; width: 44px; height: 44px; border-radius: 999px; transition: background-color .3s, color .3s, transform .4s var(--ease-spring); }
+.tabbar a:hover .tab-ico { background: var(--app-glass); }
+.tabbar a[aria-current="page"] { color: #fff; }
+.tabbar a[aria-current="page"] .tab-ico { background: #fff; color: #1b2142; transform: translateY(-1px); }
+
+/* the breathing player's progress line */
+.progress { position: relative; height: 3px; border-radius: 99px; background: rgb(255 255 255 / 0.25); }
+.progress > i { position: absolute; inset: 0 auto 0 0; border-radius: inherit; background: var(--app-chip-on); }
+.progress > b { position: absolute; top: 50%; width: 14px; height: 14px; margin: -7px 0 0 -7px; border-radius: 99px; background: #fff; box-shadow: 0 0 0 4px rgb(255 255 255 / .2); }
+
+/* on the tinted screens the main button is the white pill; inside a light bottom sheet it stays ink */
+.app-shell .pb-ink:not(.sheet .pb-ink) { background: #fff; color: #1b2142; border-color: #fff; }
+.app-shell .pb-ink:not(.sheet .pb-ink):hover { background: #fff; }
+.app-shell .sheet { color: var(--ink); }
+
+/* the full-screen player (breathing, grounding): the phase's tint, opaque, with a warm glow behind Lotl */
+.player { color: #fff; font-family: var(--font-instrument), system-ui, sans-serif; --on-sky: #fff; --on-sky-soft: rgb(255 255 255 / .72); --app-glass: rgb(255 255 255 / .12); --app-glass-2: rgb(255 255 255 / .2); --app-line: rgb(255 255 255 / .16); --app-accent: #ffb3c4; --app-chip-on: #f7a8ba; animation: sheet-up .5s var(--ease-settle); }
+html[data-phase="night"]  .player { background: radial-gradient(90% 50% at 50% 30%, rgb(240 128 160 / .35), transparent 70%), linear-gradient(180deg, #141b44, #0d1230); }
+html[data-phase="dusk"]   .player { background: radial-gradient(90% 50% at 50% 30%, rgb(255 150 150 / .38), transparent 70%), linear-gradient(180deg, #4a2550, #24183c); }
+html[data-phase="golden"] .player { background: radial-gradient(90% 50% at 50% 30%, rgb(255 190 120 / .45), transparent 70%), linear-gradient(180deg, #a5452a, #5e2420); }
+html[data-phase="day"]    .player { background: radial-gradient(90% 50% at 50% 30%, rgb(160 230 240 / .4), transparent 70%), linear-gradient(180deg, #17607c, #0e3550); }
+html[data-phase="dawn"]   .player { background: radial-gradient(90% 50% at 50% 30%, rgb(255 180 160 / .45), transparent 70%), linear-gradient(180deg, #8c3b57, #45233f); }
+.player .font-display { font-family: var(--font-instrument), system-ui, sans-serif; font-variation-settings: normal; font-weight: 500 !important; letter-spacing: -0.035em; }
+.player .tone { color: var(--app-accent); }

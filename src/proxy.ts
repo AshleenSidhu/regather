@@ -7,10 +7,11 @@ import { AUTH_COOKIE_OPTIONS } from "@/lib/supabase/cookie-options";
 const PROTECTED_PREFIXES = [
   "/onboarding",
   "/welcome",
-  "/circle",
+  "/pond",
   "/chats",
   "/notes",
   "/me",
+  "/calm",
   "/dashboard",
 ];
 
@@ -48,7 +49,7 @@ export async function proxy(request: NextRequest) {
   // Already signed in: skip the sign-in and join screens.
   if ((path === "/login" || path === "/join") && data?.claims) {
     const url = request.nextUrl.clone();
-    url.pathname = "/circle";
+    url.pathname = "/pond";
     url.search = "";
     return NextResponse.redirect(url);
   }

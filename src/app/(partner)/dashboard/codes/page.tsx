@@ -21,8 +21,8 @@ export default async function CodesPage() {
 
   return (
     <div className="flex flex-col gap-6">
-      <h1 className="text-3xl font-bold text-on-sky">Invite codes</h1>
-      <p className="text-on-sky/85">
+      <h1 className="font-display text-4xl font-semibold text-on-sky">Invite codes</h1>
+      <p className="text-on-sky-soft">
         Each code sets one role and age band, expires, and can be used a limited number of times. A code is shown once, when you make it.
       </p>
 

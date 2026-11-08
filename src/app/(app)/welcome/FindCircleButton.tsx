@@ -24,7 +24,7 @@ export function FindCircleButton() {
           })
         }
       >
-        {pending ? "Finding your circle…" : "Find my circle"}
+        {pending ? "Finding your pond…" : "Find my pond"}
       </PillButton>
     </div>
   );

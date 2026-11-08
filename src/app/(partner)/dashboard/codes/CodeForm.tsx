@@ -11,7 +11,7 @@ const BANDS: Record<string, { value: string; label: string }[]> = {
   youth: [{ value: "13_15", label: "13 to 15" }, { value: "16_17", label: "16 to 17" }],
   young_adult: [{ value: "18_24", label: "18 to 24" }],
   parent: [{ value: "25_plus", label: "25 and over" }, { value: "18_24", label: "18 to 24" }],
-  mentor: [{ value: "18_24", label: "18 to 24 (for youth circles)" }, { value: "25_plus", label: "25 and over" }],
+  mentor: [{ value: "18_24", label: "18 to 24 (for youth ponds)" }, { value: "25_plus", label: "25 and over" }],
 };
 
 const selectClass =

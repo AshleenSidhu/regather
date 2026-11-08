@@ -34,6 +34,8 @@ export type MemberViewer = {
   circleId: string | null;
   /** Mentors can guide several circles. */
   mentoredCircleIds: string[];
+  /** City picklist value (for the living sky's sun times and calm weather). */
+  city: string | null;
 };
 
 export type Viewer = PartnerViewer | MemberViewer;
@@ -67,7 +69,7 @@ export const getViewer = cache(async (): Promise<Viewer | null> => {
   if (!profile) return null;
 
   const [{ data: details }, { data: membership }, { data: mentored }] = await Promise.all([
-    supabase.from("profile_details").select("onboarded_at").eq("user_id", user.id).maybeSingle(),
+    supabase.from("profile_details").select("onboarded_at, city").eq("user_id", user.id).maybeSingle(),
     supabase.from("circle_members").select("circle_id").eq("user_id", user.id).maybeSingle(),
     supabase.from("circles").select("id").eq("mentor_id", user.id).order("created_at"),
   ]);
@@ -83,6 +85,7 @@ export const getViewer = cache(async (): Promise<Viewer | null> => {
     onboarded: Boolean(details?.onboarded_at) || profile.role === "mentor",
     circleId: membership?.circle_id ?? mentoredCircleIds[0] ?? null,
     mentoredCircleIds,
+    city: details?.city ?? null,
   };
 });
 

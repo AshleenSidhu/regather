@@ -14,8 +14,8 @@ export default function PrivacyPage() {
   return (
     <div className="mx-auto flex w-full max-w-2xl flex-1 flex-col gap-6 px-5 py-10">
       <div>
-        <h1 className="text-3xl font-bold text-on-sky">How we protect your privacy</h1>
-        <p className="mt-2 text-on-sky/85">
+        <h1 className="font-display text-4xl font-semibold text-on-sky">How we protect your privacy</h1>
+        <p className="mt-2 text-on-sky-soft">
           Plain language, no tricks. Regather holds sensitive information, so we collect as little
           as we can.
         </p>
@@ -29,8 +29,8 @@ export default function PrivacyPage() {
           <p>No real names, birthdays, home addresses, GPS locations, or photos. We don&apos;t use ads, trackers or analytics.</p>
         </Section>
         <Section title="Who can see what">
-          <p>Only members of a circle can read it, plus its mentor. Youth and adults are kept apart: teens and parents never share a circle, can&apos;t message each other, and can&apos;t send each other notes. Private chats start only when both people agree, and only between people of the same role and age group.</p>
-          <p>Your program (the partner who gave you a code) can see how many people are in each circle and how active it is. They can&apos;t read your circle chats or private chats.</p>
+          <p>Only members of a pond can read it, plus its mentor. Youth and adults are kept apart: teens and parents never share a pond, can&apos;t message each other, and can&apos;t send each other notes. Private chats start only when both people agree, and only between people of the same role and age group.</p>
+          <p>Your program (the partner who gave you a code) can see how many people are in each pond and how active it is. They can&apos;t read your pond chats or private chats.</p>
         </Section>
         <Section title="Safety checks">
           <p>Every message and note is checked for words that suggest someone may be in danger. If one does, you immediately see numbers you can call (9-8-8, Distress Centre Calgary, 9-1-1), and a copy of that message goes to a moderator at your program so someone can check in. Messages are never silently removed. Phone numbers, emails, links and addresses are hidden from messages until you&apos;ve built up trust in the community.</p>
@@ -46,7 +46,7 @@ export default function PrivacyPage() {
         </Section>
       </Card>
 
-      <p className="text-center text-on-sky/85">
+      <p className="text-center text-on-sky-soft">
         <Link href="/" className="font-bold underline underline-offset-4">
           Back home
         </Link>

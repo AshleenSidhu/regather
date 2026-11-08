@@ -51,7 +51,7 @@ export async function requestMentorAction(): Promise<SocialResult> {
   const { data, error } = await supabase.rpc("request_mentor");
   const r = data as Json;
   if (!error && r && !r.ok && r.error === "no_mentor") {
-    return { ok: false, error: "This circle doesn't have a mentor yet." };
+    return { ok: false, error: "This pond doesn't have a mentor yet." };
   }
   revalidatePath("/chats");
   return toResult(data, error);

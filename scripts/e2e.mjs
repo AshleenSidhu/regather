@@ -116,7 +116,7 @@ try {
   // ----------------------------------------------------------------- the chat
   step("4. Circle chat, check-in, and the crisis safety net");
   await t.getByRole("link", { name: "Say hi" }).click();
-  await t.waitForURL(/\/circle\/[0-9a-f-]{36}$/);
+  await t.waitForURL(/\/pond\/[0-9a-f-]{36}$/);
   await t.waitForSelector("text=welcome", { timeout: 1000 }).catch(() => {});
   await t.waitForSelector("text=Welcome, everyone");
   check("seeded conversation is visible", true);
@@ -146,7 +146,7 @@ try {
   // ------------------------------------------------ realtime with a 2nd person
   step("5. Another member sees it live");
   const sam = await session();
-  await login(sam.page, "sam@example.test", "**/circle/*");
+  await login(sam.page, "sam@example.test", "**/pond/*");
   await sam.page.waitForSelector("text=Hi all. I'm new.");
   check("Sam sees the new parent's message", true);
   await sam.page.waitForTimeout(1500);
@@ -218,12 +218,12 @@ try {
 
   // ------------------------------------------------------------------ mentor
   step("9. Mentor 1:1");
-  await t.goto(`${BASE}/circle`);
+  await t.goto(`${BASE}/pond`);
   await t.getByRole("button", { name: /Ask Dana for a 1:1/ }).click();
   await t.waitForSelector("text=Dana will see your request");
   check("mentor request sent", true);
   const dana = await session();
-  await login(dana.page, "dana@example.test", "**/circle**");
+  await login(dana.page, "dana@example.test", "**/pond**");
   await dana.page.goto(`${BASE}/chats`);
   await dana.page.getByText("asked for a 1:1 with you").first().waitFor();
   await dana.page.getByRole("button", { name: "Accept" }).first().click();
@@ -235,14 +235,14 @@ try {
   // --------------------------------------------- youth never see parent things
   step("10. Youth and parents stay apart");
   const pip = await session();
-  await login(pip.page, "pip@example.test", "**/circle/*");
+  await login(pip.page, "pip@example.test", "**/pond/*");
   const pipText = await pip.page.locator("main").innerText();
   check("youth circle shows youth only", pipText.includes("Circle Lily") && !pipText.includes("Tester") && !/bSamb/.test(pipText) && !pipText.includes("Willow"));
   await pip.page.getByRole("button", { name: /Who's here/ }).click();
   const dlg = await pip.page.getByRole("dialog").innerText();
   check("no parent appears in the youth member list", !dlg.includes("Parent"));
   await shot(pip.page, "17-youth-circle");
-  const direct = await pip.page.request.get(`${BASE}/circle/c0000000-0000-4000-8000-000000000001`);
+  const direct = await pip.page.request.get(`${BASE}/pond/c0000000-0000-4000-8000-000000000001`);
   check("a youth opening a parent circle by URL gets nothing", !(await direct.text()).includes("Welcome, everyone"));
 
   // ------------------------------------------------------- privacy & deletion

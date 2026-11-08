@@ -19,7 +19,7 @@ export type FlagRow = {
 };
 
 const CONTEXT_LABEL: Record<string, string> = {
-  circle: "Circle message",
+  circle: "Pond message",
   private: "Private chat message",
   mentor: "Mentor chat message",
   note: "Candy-gram note",

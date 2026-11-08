@@ -1,13 +1,11 @@
 import Link from "next/link";
-import { Axolotl } from "@/components/axolotl/Axolotl";
-import { Card } from "@/components/ui/Card";
+import { Lotl } from "@/components/lotl/Lotl";
+import { Sticker } from "@/components/ui/Icons";
 import { requireMember } from "@/lib/auth";
 import { createClient } from "@/lib/supabase/server";
 import { RequestActions } from "./RequestActions";
 
 export const metadata = { title: "Chats · Regather" };
-
-const EMOJI: Record<string, string> = { shell: "🐚", lily: "🪷", axolotl: "🦎" };
 
 type Who = { id: string; nickname: string; sticker: string } | null;
 
@@ -31,52 +29,56 @@ export default async function ChatsPage() {
     : { data: [] as NonNullable<Who>[] };
   const byId = new Map((profs ?? []).map((p) => [p.id, p]));
   const name = (id: string) => byId.get(id)?.nickname ?? "Someone";
-  const emoji = (id: string) => EMOJI[byId.get(id)?.sticker ?? ""] ?? "";
+  const sticker = (id: string) => <Sticker kind={byId.get(id)?.sticker ?? "axolotl"} className="h-10 w-10 shrink-0" />;
 
   const hasRequests = (incoming?.length ?? 0) + (mentorRequests?.length ?? 0) > 0;
 
   return (
     <div className="flex flex-col gap-5 pt-2">
-      <h1 className="text-3xl font-bold text-on-sky">Chats</h1>
+      <div className="enter">
+        <h1 className="font-display text-[40px] leading-tight">Your <span className="tone">chats</span></h1>
+        <p className="text-on-sky-soft">One-to-one, only when you both say yes.</p>
+      </div>
 
       {hasRequests && (
         <section aria-label="Requests" className="flex flex-col gap-3">
-          <h2 className="font-bold text-on-sky">Waiting for you</h2>
+          <h2 className="font-display text-[26px]">Waiting <span className="tone-soft">for you</span></h2>
           {incoming?.map((r) => (
-            <Card key={r.id} tone="lilac" className="flex items-center justify-between gap-3 p-4!">
-              <p className="font-semibold">{emoji(r.requester_id)} {name(r.requester_id)} would like to chat 1:1</p>
+            <div key={r.id} className="paper enter flex flex-wrap items-center justify-between gap-3 p-4">
+              <p className="flex items-center gap-2 font-bold">{sticker(r.requester_id)} {name(r.requester_id)} would like to chat 1:1</p>
               <RequestActions id={r.id} kind="connection" />
-            </Card>
+            </div>
           ))}
           {mentorRequests?.map((r) => (
-            <Card key={r.id} tone="mint" className="flex items-center justify-between gap-3 p-4!">
-              <p className="font-semibold">{emoji(r.requester_id)} {name(r.requester_id)} asked for a 1:1 with you</p>
+            <div key={r.id} className="paper enter flex flex-wrap items-center justify-between gap-3 p-4">
+              <p className="flex items-center gap-2 font-bold">{sticker(r.requester_id)} {name(r.requester_id)} asked to talk with you</p>
               <RequestActions id={r.id} kind="mentor" />
-            </Card>
+            </div>
           ))}
         </section>
       )}
 
       <section aria-label="Your chats" className="flex flex-col gap-3">
         {!threads?.length ? (
-          <Card tone="cream" className="text-center">
-            <Axolotl resting className="mx-auto h-28 w-auto" />
-            <p className="mt-2 font-semibold">No private chats yet.</p>
+          <div className="paper p-6 text-center">
+            <Lotl mood="sleep" className="mx-auto h-24 w-auto" title="" />
+            <p className="mt-2 font-extrabold">No private chats yet.</p>
             <p className="text-ink-soft">
-              Tap &ldquo;Who&apos;s here&rdquo; in your circle to ask someone to chat. Both of you need to agree.
+              Tap &ldquo;Who&apos;s here&rdquo; in your pond to ask someone to chat. You both need to say yes.
             </p>
-          </Card>
+          </div>
         ) : (
           <ul className="flex flex-col gap-3">
             {threads.map((t) => {
               const other = t.user_a === viewer.userId ? t.user_b : t.user_a;
               return (
                 <li key={t.id}>
-                  <Link href={`/chats/${t.id}`} className="block rounded-card focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-ink">
-                    <Card tone="cream" className="p-4!">
-                      <p className="text-lg font-bold">{emoji(other)} {name(other)}</p>
-                      <p className="text-sm text-ink-soft">{t.kind === "mentor" ? "Mentor chat · moderated" : "Private chat"}</p>
-                    </Card>
+                  <Link href={`/chats/${t.id}`} className="lift paper flex items-center gap-3 p-4">
+                    {sticker(other)}
+                    <span>
+                      <span className="block text-lg font-extrabold">{name(other)}</span>
+                      <span className="block text-sm text-ink-soft">{t.kind === "mentor" ? "Mentor chat · a moderator can see it" : "Private chat"}</span>
+                    </span>
                   </Link>
                 </li>
               );

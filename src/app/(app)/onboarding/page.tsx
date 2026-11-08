@@ -6,6 +6,6 @@ export const metadata = { title: "Welcome · Regather" };
 
 export default async function OnboardingPage() {
   const viewer = await requireMemberAnyStage();
-  if (viewer.onboarded) redirect(viewer.circleId ? "/circle" : "/welcome");
+  if (viewer.onboarded) redirect(viewer.circleId ? "/pond" : "/welcome");
   return <OnboardingWizard role={viewer.role} nickname={viewer.nickname} />;
 }
