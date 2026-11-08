@@ -44,3 +44,5 @@ next-env.d.ts
 # kept local only
 /design-references/
 /.env.example
+# Playwright CLI output (may contain credentials)
+.playwright-cli/
